@@ -33,7 +33,8 @@ public class BookStoreApplication {
             book.setDescription("Bla bla bla");
             book.setCoverImage("000-0-00-000000-0.jpg");
 
-            bookService.save(book);
+            System.out.println("Saved book: " + bookService.save(book));
+            System.out.println("Books from db:" + bookService.findAll());
         };
     }
 }
