@@ -1,0 +1,51 @@
+package org.bookstore.repository.impl;
+
+import java.util.List;
+import org.bookstore.exception.DatabaseException;
+import org.bookstore.model.Book;
+import org.bookstore.repository.BookRepository;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class BookRepositoryImpl implements BookRepository {
+
+    private final SessionFactory sessionFactory;
+
+    public BookRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    @Override
+    public Book save(Book book) {
+        Session sesion = null;
+        Transaction transaction = null;
+        try {
+            sesion = sessionFactory.openSession();
+            transaction = sesion.beginTransaction();
+            sesion.persist(book);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DatabaseException("Failed to persist the book: " + book, e);
+        } finally {
+            if (sesion != null) {
+                sesion.close();
+            }
+        }
+        return book;
+    }
+
+    @Override
+    public List<Book> findAll() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Book> query = session.createQuery("from Book", Book.class);
+            return query.getResultList();
+        }
+    }
+}
