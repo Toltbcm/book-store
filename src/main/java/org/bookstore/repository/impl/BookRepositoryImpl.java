@@ -1,6 +1,8 @@
 package org.bookstore.repository.impl;
 
 import java.util.List;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.bookstore.exception.DatabaseException;
 import org.bookstore.model.Book;
 import org.bookstore.repository.BookRepository;
@@ -11,13 +13,10 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class BookRepositoryImpl implements BookRepository {
 
     private final SessionFactory sessionFactory;
-
-    public BookRepositoryImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public Book save(Book book) {
@@ -39,6 +38,13 @@ public class BookRepositoryImpl implements BookRepository {
             }
         }
         return book;
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.find(Book.class, id));
+        }
     }
 
     @Override
