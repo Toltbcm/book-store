@@ -6,7 +6,7 @@ import org.bookstore.dto.CreateBookDto;
 
 public interface BookService {
 
-    BookDto save(CreateBookDto dto);
+    BookDto save(CreateBookDto requestDto);
 
     BookDto findById(Long id);
 
