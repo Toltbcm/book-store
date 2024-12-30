@@ -144,8 +144,6 @@
                     <sourceDirectories>src</sourceDirectories>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
-
 </project>
