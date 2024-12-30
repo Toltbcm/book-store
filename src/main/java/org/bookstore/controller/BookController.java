@@ -1,5 +1,6 @@
 package org.bookstore.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.BookDto;
@@ -32,7 +33,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookDto> create(@RequestBody CreateBookDto requestDto) {
+    public ResponseEntity<BookDto> create(@Valid @RequestBody CreateBookDto requestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(requestDto));
     }
 }
