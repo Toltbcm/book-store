@@ -1,7 +1,5 @@
 package org.bookstore.repository;
 
-import java.util.List;
-import java.util.Optional;
 import org.bookstore.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
