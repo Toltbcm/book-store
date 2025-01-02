@@ -8,16 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import lombok.Data;
+import org.bookstore.constant.ColumnName;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import static org.bookstore.constant.ColumnName.BookColumns.AUTHOR;
-import static org.bookstore.constant.ColumnName.BookColumns.COVER_IMAGE;
-import static org.bookstore.constant.ColumnName.BookColumns.DESCRIPTION;
-import static org.bookstore.constant.ColumnName.BookColumns.ID;
-import static org.bookstore.constant.ColumnName.BookColumns.ISBN;
-import static org.bookstore.constant.ColumnName.BookColumns.IS_DELETED;
-import static org.bookstore.constant.ColumnName.BookColumns.PRICE;
-import static org.bookstore.constant.ColumnName.BookColumns.TITLE;
 
 @Data
 @Entity
@@ -28,27 +21,27 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = ID)
+    @Column(name = ColumnName.Book.ID)
     private Long id;
 
-    @Column(name = TITLE, nullable = false)
+    @Column(name = ColumnName.Book.TITLE, nullable = false)
     private String title;
 
-    @Column(name = AUTHOR, nullable = false)
+    @Column(name = ColumnName.Book.AUTHOR, nullable = false)
     private String author;
 
-    @Column(name = ISBN, nullable = false, unique = true)
+    @Column(name = ColumnName.Book.ISBN, nullable = false, unique = true)
     private String isbn;
 
-    @Column(name = PRICE, nullable = false)
+    @Column(name = ColumnName.Book.PRICE, nullable = false)
     private BigDecimal price;
 
-    @Column(name = DESCRIPTION)
+    @Column(name = ColumnName.Book.DESCRIPTION)
     private String description;
 
-    @Column(name = COVER_IMAGE)
+    @Column(name = ColumnName.Book.COVER_IMAGE)
     private String coverImage;
 
-    @Column(name = IS_DELETED, nullable = false)
+    @Column(name = ColumnName.Book.IS_DELETED, nullable = false)
     private boolean isDeleted = false;
 }

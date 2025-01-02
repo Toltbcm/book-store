@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.BookDto;
 import org.bookstore.dto.CreateBookDto;
 import org.bookstore.dto.UpdateBookDto;
+import org.bookstore.dto.search.BookSearchParameters;
 import org.bookstore.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +51,10 @@ public class BookController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         bookService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<BookDto>> search(BookSearchParameters searchParameters) {
+        return ResponseEntity.ok(bookService.search(searchParameters));
     }
 }

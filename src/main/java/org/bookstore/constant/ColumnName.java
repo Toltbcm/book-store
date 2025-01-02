@@ -2,7 +2,7 @@ package org.bookstore.constant;
 
 public final class ColumnName {
 
-    public static final class BookColumns {
+    public static final class Book {
         public static final String ID = "id";
         public static final String TITLE = "title";
         public static final String AUTHOR = "author";
@@ -12,7 +12,7 @@ public final class ColumnName {
         public static final String COVER_IMAGE = "cover_image";
         public static final String IS_DELETED = "is_deleted";
 
-        private BookColumns() {
+        private Book() {
         }
     }
 
