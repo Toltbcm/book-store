@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
 
 @Data
 public class CreateBookDto {
@@ -23,5 +24,6 @@ public class CreateBookDto {
 
     private String description;
 
+    @URL
     private String coverImage;
 }

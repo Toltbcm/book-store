@@ -30,14 +30,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleAllExceptions(Exception ex) {
         Map<String, Object> body = prepareBody(HttpStatus.INTERNAL_SERVER_ERROR);
-        body.put("error", ex.getMessage());
+        body.put("error", ex.getCause().getCause().getMessage());
+
         return ResponseEntity.internalServerError().body(body);
     }
 
     private Map<String, Object> prepareBody(HttpStatus status) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("status", status);
+        body.put("status", status.value() + ": " + status.getReasonPhrase());
         return body;
     }
 
@@ -45,7 +46,7 @@ public class GlobalExceptionHandler {
         if (e instanceof FieldError fieldError) {
             String field = fieldError.getField();
             String message = e.getDefaultMessage();
-            return field + " " + message; // наприклад: ціна повинна бути більшою або дорівнювати 0
+            return field + " " + message;
         }
         return e.getDefaultMessage();
     }
