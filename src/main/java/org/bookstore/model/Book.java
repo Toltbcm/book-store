@@ -10,6 +10,14 @@ import java.math.BigDecimal;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+import static org.bookstore.constant.ColumnName.BookColumns.AUTHOR;
+import static org.bookstore.constant.ColumnName.BookColumns.COVER_IMAGE;
+import static org.bookstore.constant.ColumnName.BookColumns.DESCRIPTION;
+import static org.bookstore.constant.ColumnName.BookColumns.ID;
+import static org.bookstore.constant.ColumnName.BookColumns.ISBN;
+import static org.bookstore.constant.ColumnName.BookColumns.IS_DELETED;
+import static org.bookstore.constant.ColumnName.BookColumns.PRICE;
+import static org.bookstore.constant.ColumnName.BookColumns.TITLE;
 
 @Data
 @Entity
@@ -20,27 +28,27 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = ID)
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = TITLE, nullable = false)
     private String title;
 
-    @Column(name = "author", nullable = false)
+    @Column(name = AUTHOR, nullable = false)
     private String author;
 
-    @Column(name = "isbn", nullable = false, unique = true)
+    @Column(name = ISBN, nullable = false, unique = true)
     private String isbn;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = PRICE, nullable = false)
     private BigDecimal price;
 
-    @Column(name = "description")
+    @Column(name = DESCRIPTION)
     private String description;
 
-    @Column(name = "cover_image")
+    @Column(name = COVER_IMAGE)
     private String coverImage;
 
-    @Column(name = "is_deleted", nullable = false)
+    @Column(name = IS_DELETED, nullable = false)
     private boolean isDeleted = false;
 }
