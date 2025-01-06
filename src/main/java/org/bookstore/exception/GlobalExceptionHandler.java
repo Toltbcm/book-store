@@ -27,11 +27,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(body);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleAllExceptions(Exception ex) {
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<Map<String, Object>> handleAllExceptions(Throwable throwable) {
         Map<String, Object> body = prepareBody(HttpStatus.INTERNAL_SERVER_ERROR);
-        body.put("error", ex.getCause().getCause().getMessage());
-
+        String errorMessage = getRootCauseMessage(throwable);
+        body.put("message", errorMessage != null ? errorMessage : "Unknown error occurred");
         return ResponseEntity.internalServerError().body(body);
     }
 
@@ -42,12 +42,18 @@ public class GlobalExceptionHandler {
         return body;
     }
 
-    private String getErrorMessage(ObjectError e) {
-        if (e instanceof FieldError fieldError) {
-            String field = fieldError.getField();
-            String message = e.getDefaultMessage();
-            return field + " " + message;
+    private String getErrorMessage(ObjectError error) {
+        if (error instanceof FieldError fieldError) {
+            return fieldError.getField() + " " + error.getDefaultMessage();
         }
-        return e.getDefaultMessage();
+        return error.getDefaultMessage();
+    }
+
+    private String getRootCauseMessage(Throwable throwable) {
+        Throwable rootCause = throwable;
+        while (rootCause.getCause() != null) {
+            rootCause = rootCause.getCause();
+        }
+        return rootCause.getMessage();
     }
 }
