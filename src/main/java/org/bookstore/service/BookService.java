@@ -5,6 +5,8 @@ import org.bookstore.dto.BookDto;
 import org.bookstore.dto.CreateBookDto;
 import org.bookstore.dto.UpdateBookDto;
 import org.bookstore.dto.search.BookSearchParameters;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
 
@@ -12,7 +14,7 @@ public interface BookService {
 
     BookDto findById(Long id);
 
-    List<BookDto> findAll();
+    Page<BookDto> findAll(Pageable pageable);
 
     BookDto update(Long id, UpdateBookDto requestDto);
 
