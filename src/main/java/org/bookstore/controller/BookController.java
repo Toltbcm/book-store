@@ -6,17 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.BookDto;
 import org.bookstore.dto.CreateBookDto;
 import org.bookstore.dto.UpdateBookDto;
-import org.bookstore.dto.UpdateBookDto;
 import org.bookstore.service.BookService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,14 +42,13 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDto> update(
-            @PathVariable Long id, @RequestBody @Valid UpdateBookDto requestDto) {
-        return ResponseEntity.ok(bookService.update(id, requestDto));
+    public BookDto update(@PathVariable Long id, @RequestBody @Valid UpdateBookDto requestDto) {
+        return bookService.update(id, requestDto);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         bookService.delete(id);
-        return ResponseEntity.noContent().build();
     }
 }
