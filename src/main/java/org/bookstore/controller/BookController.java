@@ -54,7 +54,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<BookDto>> search(BookSearchParameters searchParameters) {
-        return ResponseEntity.ok(bookService.search(searchParameters));
+    public List<BookDto> search(BookSearchParameters searchParameters) {
+        return bookService.search(searchParameters);
     }
 }
