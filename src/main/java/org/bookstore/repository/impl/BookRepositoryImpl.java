@@ -1,6 +1,7 @@
 package org.bookstore.repository.impl;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.exception.DataProcessingException;
 import org.bookstore.model.Book;
@@ -37,6 +38,13 @@ public class BookRepositoryImpl implements BookRepository {
             }
         }
         return book;
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.find(Book.class, id));
+        }
     }
 
     @Override
