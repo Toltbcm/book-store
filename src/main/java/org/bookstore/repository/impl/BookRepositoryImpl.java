@@ -3,7 +3,7 @@ package org.bookstore.repository.impl;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.bookstore.exception.DatabaseException;
+import org.bookstore.exception.DataProcessingException;
 import org.bookstore.model.Book;
 import org.bookstore.repository.BookRepository;
 import org.hibernate.Session;
@@ -12,8 +12,8 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository
 @RequiredArgsConstructor
+@Repository
 public class BookRepositoryImpl implements BookRepository {
 
     private final SessionFactory sessionFactory;
@@ -31,7 +31,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DatabaseException("Failed to persist the book: " + book, e);
+            throw new DataProcessingException("Failed to persist the book: " + book, e);
         } finally {
             if (sesion != null) {
                 sesion.close();
