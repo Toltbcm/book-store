@@ -3,9 +3,8 @@ package org.bookstore.controller;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.bookstore.dto.BookDto;
-import org.bookstore.dto.CreateBookDto;
-import org.bookstore.dto.UpdateBookDto;
+import org.bookstore.dto.request.CreateBookRequestDto;
+import org.bookstore.dto.response.BookResponseDto;
 import org.bookstore.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,23 +25,23 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/{id}")
-    public BookDto getById(@PathVariable Long id) {
+    public BookResponseDto getById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
     @GetMapping
-    public List<BookDto> getAll() {
+    public List<BookResponseDto> getAll() {
         return bookService.findAll();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public BookDto create(@Valid @RequestBody CreateBookDto requestDto) {
+    public BookResponseDto create(@Valid @RequestBody CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
     @PutMapping("/{id}")
-    public BookDto update(@PathVariable Long id, @RequestBody @Valid UpdateBookDto requestDto) {
+    public BookResponseDto update(@PathVariable Long id, @RequestBody @Valid UpdateBookRequestDto requestDto) {
         return bookService.update(id, requestDto);
     }
 
