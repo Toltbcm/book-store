@@ -2,9 +2,9 @@ package org.bookstore.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.bookstore.dto.search.BookSearchParameters;
 import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
+import org.bookstore.dto.request.search.BookSearchParametersRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
 import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.mapper.BookMapper;
@@ -58,8 +58,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookResponseDto> search(BookSearchParameters searchParameters) {
-        return bookRepository.findAll(bookSpecificationBuilder.build(searchParameters))
+    public List<BookResponseDto> search(BookSearchParametersRequestDto searchParametersDto) {
+        return bookRepository.findAll(bookSpecificationBuilder.build(searchParametersDto))
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();

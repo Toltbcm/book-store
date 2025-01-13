@@ -5,8 +5,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
+import org.bookstore.dto.request.search.BookSearchParametersRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
-import org.bookstore.dto.search.BookSearchParameters;
 import org.bookstore.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,7 +56,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public List<BookResponseDto> search(BookSearchParameters searchParameters) {
+    public List<BookResponseDto> search(BookSearchParametersRequestDto searchParameters) {
         return bookService.search(searchParameters);
     }
 }

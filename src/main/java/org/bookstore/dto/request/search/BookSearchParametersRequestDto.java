@@ -1,8 +1,8 @@
-package org.bookstore.dto.search;
+package org.bookstore.dto.request.search;
 
 import java.math.BigDecimal;
 
-public record BookSearchParameters(
+public record BookSearchParametersRequestDto(
         String titlePart,
         String authorPart,
         String isbnPart,
