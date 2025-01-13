@@ -2,9 +2,6 @@ package org.bookstore.constant;
 
 public final class ColumnName {
 
-    private ColumnName() {
-    }
-
     public static final class Book {
         public static final String ID = "id";
         public static final String TITLE = "title";
@@ -17,5 +14,20 @@ public final class ColumnName {
 
         private Book() {
         }
+    }
+
+    public static final class User {
+        public static final String ID = "id";
+        public static final String EMAIL = "email";
+        public static final String PASSWORD = "password";
+        public static final String FIRST_NAME = "first_name";
+        public static final String LAST_NAME = "last_name";
+        public static final String SHIPPING_ADDRESS = "shipping_address";
+
+        private User() {
+        }
+    }
+
+    private ColumnName() {
     }
 }
