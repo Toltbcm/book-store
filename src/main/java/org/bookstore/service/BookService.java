@@ -1,22 +1,22 @@
 package org.bookstore.service;
 
 import java.util.List;
-import org.bookstore.dto.BookDto;
-import org.bookstore.dto.CreateBookDto;
-import org.bookstore.dto.UpdateBookDto;
-import org.bookstore.dto.search.BookSearchParameters;
+import org.bookstore.dto.request.CreateBookRequestDto;
+import org.bookstore.dto.request.UpdateBookRequestDto;
+import org.bookstore.dto.request.search.BookSearchParametersRequestDto;
+import org.bookstore.dto.response.BookResponseDto;
 
 public interface BookService {
 
-    BookDto save(CreateBookDto requestDto);
+    BookResponseDto save(CreateBookRequestDto requestDto);
 
-    BookDto findById(Long id);
+    BookResponseDto findById(Long id);
 
-    List<BookDto> findAll();
+    List<BookResponseDto> findAll();
 
-    BookDto update(Long id, UpdateBookDto requestDto);
+    BookResponseDto update(Long id, UpdateBookRequestDto requestDto);
 
     void delete(Long id);
 
-    List<BookDto> search(BookSearchParameters searchParameters);
+    List<BookResponseDto> search(BookSearchParametersRequestDto searchParametersDto);
 }
