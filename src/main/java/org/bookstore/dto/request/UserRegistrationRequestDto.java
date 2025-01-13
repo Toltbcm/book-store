@@ -1,40 +1,38 @@
 package org.bookstore.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record UserRegistrationRequestDto(
 
-        @NotNull
+        @NotBlank
         @Email
         String email,
 
-        @NotNull
+        @NotBlank
         @Size(min = 8, max = 56)
         String password,
 
-        @NotNull
+        @NotBlank
         @Size(min = 8, max = 56)
         String confirmPassword,
 
-        @NotNull
-        @Size(min = 1, max = 35)
+        @NotBlank
+        @Size(max = 35)
         String firstName,
 
-        @NotNull
-        @Size(min = 1, max = 35)
+        @NotBlank
+        @Size(max = 35)
         String lastName,
 
-        @NotNull
-        @Size(min = 1, max = 256)
+        @NotBlank
+        @Size(max = 256)
         String shippingAddress
 ) {
-    @JsonIgnore
     @AssertTrue(message = "passwords do not match")
-    public boolean doPasswordsMatch() {
+    public boolean isPasswordConfirmed() {
         return password.equals(confirmPassword);
     }
 }
