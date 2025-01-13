@@ -2,6 +2,9 @@ package org.bookstore.constant;
 
 public final class ColumnName {
 
+    private ColumnName() {
+    }
+
     public static final class Book {
         public static final String ID = "id";
         public static final String TITLE = "title";
@@ -14,8 +17,5 @@ public final class ColumnName {
 
         private Book() {
         }
-    }
-
-    private ColumnName() {
     }
 }
