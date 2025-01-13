@@ -1,4 +1,4 @@
-package org.bookstore.dto;
+package org.bookstore.dto.response;
 
 public record UserResponseDto(
         Long id,

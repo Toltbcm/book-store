@@ -1,4 +1,4 @@
-package org.bookstore.dto;
+package org.bookstore.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.AssertTrue;
