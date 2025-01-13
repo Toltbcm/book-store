@@ -1,6 +1,7 @@
 package org.bookstore.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import lombok.Data;
@@ -9,13 +10,13 @@ import org.hibernate.validator.constraints.URL;
 @Data
 public class CreateBookDto {
 
-    @NotNull
+    @NotBlank
     private String title;
 
-    @NotNull
+    @NotBlank
     private String author;
 
-    @NotNull
+    @NotBlank
     private String isbn;
 
     @NotNull

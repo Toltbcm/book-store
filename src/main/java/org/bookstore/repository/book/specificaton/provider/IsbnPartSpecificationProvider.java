@@ -19,6 +19,6 @@ public class IsbnPartSpecificationProvider implements SpecificationProvider<Book
     public Specification<Book> getSpecification(String isbnPart) {
         return (root, query, criteriaBuilder)
                 -> criteriaBuilder.like(
-                        root.get(ColumnName.Book.ISBN), "%" + isbnPart + "%");
+                root.get(ColumnName.Book.ISBN), "%" + isbnPart + "%");
     }
 }
