@@ -3,6 +3,7 @@ package org.bookstore.service.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateBookRequestDto;
+import org.bookstore.dto.request.UpdateBookRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
 import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.mapper.BookMapper;

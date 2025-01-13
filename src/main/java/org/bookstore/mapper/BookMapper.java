@@ -2,6 +2,7 @@ package org.bookstore.mapper;
 
 import org.bookstore.config.MapperConfig;
 import org.bookstore.dto.request.CreateBookRequestDto;
+import org.bookstore.dto.request.UpdateBookRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
 import org.bookstore.model.Book;
 import org.mapstruct.BeanMapping;
