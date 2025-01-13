@@ -2,7 +2,7 @@ package org.bookstore.repository.book.specificaton;
 
 import lombok.RequiredArgsConstructor;
 import org.bookstore.constant.SpecificationProviderKey;
-import org.bookstore.dto.search.BookSearchParameters;
+import org.bookstore.dto.request.search.BookSearchParametersRequestDto;
 import org.bookstore.model.Book;
 import org.bookstore.repository.SpecificationBuilder;
 import org.bookstore.repository.SpecificationProviderManager;
@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class BookSpecificationBuilder implements SpecificationBuilder<Book, BookSearchParameters> {
+public class BookSpecificationBuilder
+        implements SpecificationBuilder<Book, BookSearchParametersRequestDto> {
 
     private final SpecificationProviderManager<Book> bookSpecificationProviderManager;
 
     @Override
-    public Specification<Book> build(BookSearchParameters searchParameters) {
+    public Specification<Book> build(BookSearchParametersRequestDto searchParameters) {
         Specification<Book> specification = Specification.where(null);
 
         if (searchParameters.titlePart() != null) {
