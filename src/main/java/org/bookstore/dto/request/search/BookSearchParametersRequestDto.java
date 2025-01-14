@@ -1,7 +1,8 @@
 package org.bookstore.dto.request.search;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
 public record BookSearchParametersRequestDto(
@@ -12,7 +13,7 @@ public record BookSearchParametersRequestDto(
 
         String isbnPart,
 
-        @Min(0)
+        @PositiveOrZero
         BigDecimal minPrice,
 
         @Positive
@@ -20,4 +21,11 @@ public record BookSearchParametersRequestDto(
 
         String descriptionPart
 ) {
+    @AssertTrue
+    public boolean isMaxPriceMoreThanMinPrice() {
+        if (minPrice == null || maxPrice == null) {
+            return true;
+        }
+        return maxPrice().compareTo(minPrice()) > 0;
+    }
 }
