@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import org.bookstore.constant.ColumnName;
 
 @Data
 @Entity
@@ -16,21 +15,21 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = ColumnName.User.ID)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = ColumnName.User.EMAIL, nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = ColumnName.User.PASSWORD, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = ColumnName.User.FIRST_NAME, nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = ColumnName.User.LAST_NAME, nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = ColumnName.User.SHIPPING_ADDRESS, nullable = false)
+    @Column(name = "shipping_address", nullable = false)
     private String shippingAddress;
 }
