@@ -65,18 +65,18 @@ public class GlobalExceptionHandler {
         return body;
     }
 
+    private <E extends Exception> String getRootCauseMessage(E ex) {
+        Throwable rootCause = ex;
+        while (rootCause.getCause() != null) {
+            rootCause = rootCause.getCause();
+        }
+        return rootCause.getMessage() != null ? rootCause.getMessage() : "Unknown error occurred";
+    }
+
     private String getErrorMessage(ObjectError error) {
         if (error instanceof FieldError fieldError) {
             return fieldError.getField() + " " + error.getDefaultMessage();
         }
         return error.getDefaultMessage();
-    }
-
-    private String getRootCauseMessage(Throwable throwable) {
-        Throwable rootCause = throwable;
-        while (rootCause.getCause() != null) {
-            rootCause = rootCause.getCause();
-        }
-        return rootCause.getMessage() != null ? rootCause.getMessage() : "Unknown error occurred";
     }
 }
