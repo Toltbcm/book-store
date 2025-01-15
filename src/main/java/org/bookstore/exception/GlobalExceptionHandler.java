@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,6 +38,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleRegistrationException(
             RegistrationException ex) {
         return makeResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAuthorizationDeniedException(
+            AuthorizationDeniedException ex) {
+        return makeResponse(ex, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)
