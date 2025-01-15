@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import org.bookstore.constant.ColumnName;
 import org.springframework.security.core.GrantedAuthority;
 
 @Data
@@ -19,11 +18,11 @@ public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = ColumnName.Role.ID)
+    @Column(name = "id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = ColumnName.Role.NAME, nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private RoleName name;
 
     @Override
