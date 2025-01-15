@@ -1,6 +1,5 @@
 package org.bookstore.repository.book.specificaton.provider;
 
-import org.bookstore.constant.ColumnName;
 import org.bookstore.constant.SpecificationProviderKey;
 import org.bookstore.model.Book;
 import org.bookstore.repository.SpecificationProvider;
@@ -18,7 +17,6 @@ public class IsbnPartSpecificationProvider implements SpecificationProvider<Book
     @Override
     public Specification<Book> getSpecification(String isbnPart) {
         return (root, query, criteriaBuilder)
-                -> criteriaBuilder.like(
-                root.get(ColumnName.Book.ISBN), "%" + isbnPart + "%");
+                -> criteriaBuilder.like(root.get("isbn"), "%" + isbnPart + "%");
     }
 }

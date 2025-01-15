@@ -1,6 +1,5 @@
 package org.bookstore.repository.book.specificaton.provider;
 
-import org.bookstore.constant.ColumnName;
 import org.bookstore.constant.SpecificationProviderKey;
 import org.bookstore.model.Book;
 import org.bookstore.repository.SpecificationProvider;
@@ -19,7 +18,7 @@ public class TitlePartSpecificationProvider implements SpecificationProvider<Boo
     public Specification<Book> getSpecification(String titlePart) {
         return (root, query, criteriaBuilder)
                 -> criteriaBuilder.like(
-                criteriaBuilder.lower(root.get(ColumnName.Book.TITLE)),
+                criteriaBuilder.lower(root.get("title")),
                 "%" + titlePart.toLowerCase() + "%");
     }
 }

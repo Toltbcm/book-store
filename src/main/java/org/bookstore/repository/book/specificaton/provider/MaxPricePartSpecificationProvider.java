@@ -1,7 +1,6 @@
 package org.bookstore.repository.book.specificaton.provider;
 
 import java.math.BigDecimal;
-import org.bookstore.constant.ColumnName;
 import org.bookstore.constant.SpecificationProviderKey;
 import org.bookstore.model.Book;
 import org.bookstore.repository.SpecificationProvider;
@@ -19,6 +18,6 @@ public class MaxPricePartSpecificationProvider implements SpecificationProvider<
     @Override
     public Specification<Book> getSpecification(BigDecimal maxPrice) {
         return (root, query, criteriaBuilder)
-                -> criteriaBuilder.lessThanOrEqualTo(root.get(ColumnName.Book.PRICE), maxPrice);
+                -> criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice);
     }
 }
