@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import lombok.Data;
-import org.bookstore.constant.ColumnName;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -21,28 +20,27 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = ColumnName.Book.ID)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = ColumnName.Book.TITLE, nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = ColumnName.Book.AUTHOR, nullable = false)
+    @Column(name = "author", nullable = false)
     private String author;
 
-    @Column(name = ColumnName.Book.ISBN, nullable = false, unique = true,
-            columnDefinition = "bpchar(17)")
+    @Column(name = "isbn", nullable = false, unique = true, columnDefinition = "bpchar(17)")
     private String isbn;
 
-    @Column(name = ColumnName.Book.PRICE, nullable = false)
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = ColumnName.Book.DESCRIPTION)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = ColumnName.Book.COVER_IMAGE)
+    @Column(name = "cover_image")
     private String coverImage;
 
-    @Column(name = ColumnName.Book.IS_DELETED, nullable = false)
+    @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 }
