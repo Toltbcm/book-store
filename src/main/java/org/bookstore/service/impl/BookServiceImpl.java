@@ -4,11 +4,13 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
+import org.bookstore.dto.request.search.BookSearchParametersRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
 import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.mapper.BookMapper;
 import org.bookstore.model.Book;
-import org.bookstore.repository.BookRepository;
+import org.bookstore.repository.book.BookRepository;
+import org.bookstore.repository.book.specificaton.BookSpecificationBuilder;
 import org.bookstore.service.BookService;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
 
     private final BookMapper bookMapper;
+
+    private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @Override
     public BookResponseDto save(CreateBookRequestDto requestDto) {
@@ -51,6 +55,14 @@ public class BookServiceImpl implements BookService {
             throw new EntityNotFoundException("Can't find book with id: " + id);
         }
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookResponseDto> search(BookSearchParametersRequestDto searchParametersDto) {
+        return bookRepository.findAll(bookSpecificationBuilder.build(searchParametersDto))
+                .stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 
     private Book getBook(Long id) {
