@@ -3,6 +3,7 @@ package org.bookstore.config;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,21 +21,20 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
-    private static final String[] getAllowedEndpoints = {
-            "/books/**",
-            "/swagger-ui/**",
-            "/v3/api-docs/**"
-    };
-
-    private static final String[] postAllowedEndpoints = {
-            "/auth/registration"
-    };
-
     private final UserDetailsService userDetailsService;
+
+    @Value("${bcrypt.cost.factor}")
+    private byte bcryptCostFactor;
+
+    @Value("${endpoints.allowed.get}")
+    private String[] getAllowedEndpoints;
+
+    @Value("${endpoints.allowed.post}")
+    private String[] postAllowedEndpoints;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(bcryptCostFactor);
     }
 
     @Bean
