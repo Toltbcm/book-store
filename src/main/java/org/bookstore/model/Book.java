@@ -30,7 +30,8 @@ public class Book {
     @Column(name = ColumnName.Book.AUTHOR, nullable = false)
     private String author;
 
-    @Column(name = ColumnName.Book.ISBN, nullable = false, unique = true)
+    @Column(name = ColumnName.Book.ISBN, nullable = false, unique = true,
+            columnDefinition = "bpchar(17)")
     private String isbn;
 
     @Column(name = ColumnName.Book.PRICE, nullable = false)
