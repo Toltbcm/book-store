@@ -5,6 +5,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,11 +20,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
-    private static final String[] allowedEndpoints = {
-            "/auth/register",
+    private static final String[] getAllowedEndpoints = {
             "/books/**",
             "/swagger-ui/**",
             "/v3/api-docs/**"
+    };
+
+    private static final String[] postAllowedEndpoints = {
+            "/auth/register"
     };
 
     private final UserDetailsService userDetailsService;
@@ -40,7 +44,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(allowedEndpoints)
+                                .requestMatchers(HttpMethod.GET, getAllowedEndpoints)
+                                .permitAll()
+                                .requestMatchers(HttpMethod.POST, postAllowedEndpoints)
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
