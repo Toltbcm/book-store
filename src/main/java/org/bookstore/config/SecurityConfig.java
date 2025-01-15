@@ -27,10 +27,10 @@ public class SecurityConfig {
     private byte bcryptCostFactor;
 
     @Value("${endpoints.allowed.get}")
-    private String[] getAllowedEndpoints;
+    private String[] allowedGetEndpoints;
 
     @Value("${endpoints.allowed.post}")
-    private String[] postAllowedEndpoints;
+    private String[] allowedPostEndpoints;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -44,9 +44,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(HttpMethod.GET, getAllowedEndpoints)
+                                .requestMatchers(HttpMethod.GET, allowedGetEndpoints)
                                 .permitAll()
-                                .requestMatchers(HttpMethod.POST, postAllowedEndpoints)
+                                .requestMatchers(HttpMethod.POST, allowedPostEndpoints)
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
