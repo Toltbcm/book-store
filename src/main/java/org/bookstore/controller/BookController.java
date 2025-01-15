@@ -32,14 +32,12 @@ public class BookController {
 
     private final BookService bookService;
 
-    @PreAuthorize("permitAll()")
     @Operation(summary = "Get book by ID", description = "Endpoint for getting book by id")
     @GetMapping("/{id}")
     public BookResponseDto getById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
-    @PreAuthorize("permitAll()")
     @Operation(summary = "Get all books",
             description = "Endpoint for getting all books. Pageable, sortable")
     @GetMapping
@@ -72,7 +70,6 @@ public class BookController {
         bookService.delete(id);
     }
 
-    @PreAuthorize("permitAll()")
     @Operation(summary = "Search books", description = "Endpoint for searching books by parameters")
     @GetMapping("/search")
     public List<BookResponseDto> search(@Valid BookSearchParametersRequestDto searchParameters) {
