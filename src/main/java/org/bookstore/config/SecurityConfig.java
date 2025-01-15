@@ -5,6 +5,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,13 +16,17 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @RequiredArgsConstructor
 @Configuration
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
-
-    String[] allowedEndpoints = {
-            "/auth/**"
+    private static final String[] getAllowedEndpoints = {
+            "/auth/register",
+            "/books/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**"
     };
+
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -35,7 +40,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(allowedEndpoints)
+                                .requestMatchers(getAllowedEndpoints)
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
