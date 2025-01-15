@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
-    private static final String[] getAllowedEndpoints = {
+    private static final String[] allowedEndpoints = {
             "/auth/register",
             "/books/**",
             "/swagger-ui/**",
@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(getAllowedEndpoints)
+                                .requestMatchers(allowedEndpoints)
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
