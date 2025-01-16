@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "shipping_address", nullable = false)
+    @Column(name = "shipping_address")
     private String shippingAddress;
 
     @Column(name = "is_deleted", nullable = false)

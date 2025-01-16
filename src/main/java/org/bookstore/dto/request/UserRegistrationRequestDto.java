@@ -27,8 +27,7 @@ public record UserRegistrationRequestDto(
         @Size(max = 35)
         String lastName,
 
-        @NotBlank
-        @Size(min = 8, max = 256)
+        @Size(max = 255)
         String shippingAddress
 ) {
     @AssertTrue(message = "passwords do not match")
