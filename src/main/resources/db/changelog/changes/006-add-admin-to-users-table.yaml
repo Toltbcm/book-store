@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-admin-to-user-table
+      author: Anatolii Olkhovskyi
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: admin@books.com
+              - column:
+                  name: password
+                  value: $2a$10$wwvpbF6Zwzv1fC4FMIs2XuGUYPvoff0pzYw3X3rwAaBpIspsGHygm
+              - column:
+                  name: first_name
+                  value: Admin
+              - column:
+                  name: last_name
+                  value: Adminov
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: role_id
+                  value: 1

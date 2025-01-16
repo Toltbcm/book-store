@@ -13,6 +13,7 @@ import org.bookstore.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,7 @@ public class BookController {
         return bookService.findAll(pageable);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create book", description = "Endpoint for creating book")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -51,6 +53,7 @@ public class BookController {
         return bookService.save(requestDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update book", description = "Endpoint for updating book")
     @PutMapping("/{id}")
     public BookResponseDto update(
@@ -59,6 +62,7 @@ public class BookController {
         return bookService.update(id, requestDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete book", description = "Endpoint for deleting book")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
