@@ -18,19 +18,13 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableMethodSecurity(securedEnabled = true)
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
     @Value("${bcrypt.cost.factor}")
     private byte bcryptCostFactor;
-
-    @Value("${endpoints.allowed.get}")
-    private String[] allowedGetEndpoints;
-
-    @Value("${endpoints.allowed.post}")
-    private String[] allowedPostEndpoints;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -44,9 +38,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(HttpMethod.GET, allowedGetEndpoints)
+                                .requestMatchers(HttpMethod.GET,
+                                        "/books/**",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.POST, allowedPostEndpoints)
+                                .requestMatchers(HttpMethod.POST, "/auth/registration")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
