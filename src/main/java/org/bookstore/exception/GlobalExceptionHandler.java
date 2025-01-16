@@ -30,16 +30,25 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleEntityNotFoundException(
             EntityNotFoundException ex) {
-        Map<String, Object> body = prepareBody(HttpStatus.NOT_FOUND);
-        body.put("message", getRootCauseMessage(ex));
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+        return makeResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RegistrationException.class)
+    public ResponseEntity<Map<String, Object>> handleRegistrationException(
+            RegistrationException ex) {
+        return makeResponse(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleAllExceptions(Exception ex) {
-        Map<String, Object> body = prepareBody(HttpStatus.INTERNAL_SERVER_ERROR);
+        return makeResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private <E extends Exception> ResponseEntity<Map<String, Object>> makeResponse(
+            E ex, HttpStatus httpStatus) {
+        Map<String, Object> body = prepareBody(httpStatus);
         body.put("message", getRootCauseMessage(ex));
-        return ResponseEntity.internalServerError().body(body);
+        return ResponseEntity.status(httpStatus).body(body);
     }
 
     private Map<String, Object> prepareBody(HttpStatus status) {
@@ -49,18 +58,18 @@ public class GlobalExceptionHandler {
         return body;
     }
 
+    private <E extends Exception> String getRootCauseMessage(E ex) {
+        Throwable rootCause = ex;
+        while (rootCause.getCause() != null) {
+            rootCause = rootCause.getCause();
+        }
+        return rootCause.getMessage() != null ? rootCause.getMessage() : "Unknown error occurred";
+    }
+
     private String getErrorMessage(ObjectError error) {
         if (error instanceof FieldError fieldError) {
             return fieldError.getField() + " " + error.getDefaultMessage();
         }
         return error.getDefaultMessage();
-    }
-
-    private String getRootCauseMessage(Throwable throwable) {
-        Throwable rootCause = throwable;
-        while (rootCause.getCause() != null) {
-            rootCause = rootCause.getCause();
-        }
-        return rootCause.getMessage() != null ? rootCause.getMessage() : "Unknown error occurred";
     }
 }
