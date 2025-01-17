@@ -9,14 +9,15 @@ public record UserRegistrationRequestDto(
 
         @NotBlank
         @Email
+        @Size(max = 100)
         String email,
 
         @NotBlank
-        @Size(min = 8, max = 56)
+        @Size(min = 8, max = 72)
         String password,
 
         @NotBlank
-        @Size(min = 8, max = 56)
+        @Size(min = 8, max = 72)
         String confirmPassword,
 
         @NotBlank
