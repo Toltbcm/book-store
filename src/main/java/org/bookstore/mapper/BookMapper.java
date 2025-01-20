@@ -9,12 +9,14 @@ import org.bookstore.model.Book;
 import org.bookstore.model.Category;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.BeanMapping;
+import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(config = MapperConfig.class, uses = MapperUtil.class)
+@Mapper(config = MapperConfig.class, uses = MapperUtil.class,
+        collectionMappingStrategy = CollectionMappingStrategy.TARGET_IMMUTABLE)
 public interface BookMapper {
 
     @Mapping(target = "categoryIds", ignore = true)
