@@ -20,8 +20,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public List<CategoryResponseDto> findAll() {
-        return categoryRepository.findAll().stream().map(categoryMapper::toDto).toList();
+    public CategoryResponseDto save(CreateCategoryRequestDto requestDto) {
+        return categoryMapper.toDto(categoryRepository.save(categoryMapper.toModel(requestDto)));
     }
 
     @Override
@@ -30,8 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponseDto save(CreateCategoryRequestDto requestDto) {
-        return categoryMapper.toDto(categoryRepository.save(categoryMapper.toModel(requestDto)));
+    public List<CategoryResponseDto> getAll() {
+        return categoryRepository.findAll().stream().map(categoryMapper::toDto).toList();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         if (!categoryRepository.existsById(id)) {
             throw new EntityNotFoundException("Can't find category with id: " + id);
         }

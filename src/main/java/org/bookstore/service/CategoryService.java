@@ -7,13 +7,13 @@ import org.bookstore.dto.response.CategoryResponseDto;
 
 public interface CategoryService {
 
-    List<CategoryResponseDto> findAll();
+    CategoryResponseDto save(CreateCategoryRequestDto requestDto);
 
     CategoryResponseDto getById(Long id);
 
-    CategoryResponseDto save(CreateCategoryRequestDto requestDto);
+    List<CategoryResponseDto> getAll();
 
     CategoryResponseDto update(Long id, UpdateCategoryRequestDto requestDto);
 
-    void deleteById(Long id);
+    void delete(Long id);
 }
