@@ -1,6 +1,5 @@
 package org.bookstore.service;
 
-import java.util.List;
 import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
 import org.bookstore.dto.request.search.BookSearchParametersRequestDto;
@@ -20,7 +19,8 @@ public interface BookService {
 
     void delete(Long id);
 
-    List<BookResponseDto> search(BookSearchParametersRequestDto searchParametersDto);
+    Page<BookResponseDto> search(
+            BookSearchParametersRequestDto searchParametersDto, Pageable pageable);
 
     Page<BookResponseDto> getAllByCategoryId(Long id, Pageable pageable);
 }

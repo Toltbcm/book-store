@@ -3,7 +3,6 @@ package org.bookstore.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -72,7 +72,9 @@ public class BookController {
 
     @Operation(summary = "Search books", description = "Endpoint for searching books by parameters")
     @GetMapping("/search")
-    public List<BookResponseDto> search(@Valid BookSearchParametersRequestDto searchParameters) {
-        return bookService.search(searchParameters);
+    public Page<BookResponseDto> search(
+            @Valid BookSearchParametersRequestDto searchParameters,
+            @RequestParam Pageable pageable) {
+        return bookService.search(searchParameters, pageable);
     }
 }

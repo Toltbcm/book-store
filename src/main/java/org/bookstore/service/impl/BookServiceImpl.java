@@ -1,6 +1,5 @@
 package org.bookstore.service.impl;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
@@ -54,11 +53,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookResponseDto> search(BookSearchParametersRequestDto searchParametersDto) {
-        return bookRepository.findAll(bookSpecificationBuilder.build(searchParametersDto))
-                .stream()
-                .map(bookMapper::toDto)
-                .toList();
+    public Page<BookResponseDto> search(
+            BookSearchParametersRequestDto searchParametersDto, Pageable pageable) {
+        return bookRepository.findAll(bookSpecificationBuilder.build(searchParametersDto), pageable)
+                .map(bookMapper::toDto);
     }
 
     @Override
