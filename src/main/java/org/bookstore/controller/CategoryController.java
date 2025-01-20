@@ -3,7 +3,6 @@ package org.bookstore.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateCategoryRequestDto;
 import org.bookstore.dto.request.UpdateCategoryRequestDto;
@@ -44,8 +43,8 @@ public class CategoryController {
     @Operation(summary = "Get all categories",
             description = "Endpoint for getting all categories. Pageable, sortable")
     @GetMapping
-    public List<CategoryResponseDto> getAll() {
-        return categoryService.getAll();
+    public Page<CategoryResponseDto> getAll(@RequestParam Pageable pageable) {
+        return categoryService.getAll(pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

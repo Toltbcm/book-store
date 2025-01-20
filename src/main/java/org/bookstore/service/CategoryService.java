@@ -1,9 +1,10 @@
 package org.bookstore.service;
 
-import java.util.List;
 import org.bookstore.dto.request.CreateCategoryRequestDto;
 import org.bookstore.dto.request.UpdateCategoryRequestDto;
 import org.bookstore.dto.response.CategoryResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
 
@@ -11,7 +12,7 @@ public interface CategoryService {
 
     CategoryResponseDto getById(Long id);
 
-    List<CategoryResponseDto> getAll();
+    Page<CategoryResponseDto> getAll(Pageable pageable);
 
     CategoryResponseDto update(Long id, UpdateCategoryRequestDto requestDto);
 
