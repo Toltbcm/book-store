@@ -5,6 +5,7 @@ import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
 import org.bookstore.model.Book;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,6 +17,9 @@ public interface BookMapper {
 
     BookResponseDto toDto(Book book);
 
+    @Mapping(target = "categories", ignore = true)
+    BookResponseDto toDtoWithoutCategories(Book book);
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "deleted", ignore = true)
     Book toModel(CreateBookRequestDto requestDto);
@@ -24,4 +28,9 @@ public interface BookMapper {
     @Mapping(target = "deleted", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Book updateModel(@MappingTarget Book book, UpdateBookRequestDto requestDto);
+
+    @AfterMapping
+    default void setCategoryIds(@MappingTarget BookResponseDto responseDto, Book book) {
+
+    }
 }

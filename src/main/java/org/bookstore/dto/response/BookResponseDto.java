@@ -1,6 +1,7 @@
 package org.bookstore.dto.response;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record BookResponseDto(
         Long id,
@@ -9,6 +10,7 @@ public record BookResponseDto(
         String isbn,
         BigDecimal price,
         String description,
-        String coverImage
+        String coverImage,
+        List<Long> categoryIds
 ) {
 }
