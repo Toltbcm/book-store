@@ -12,9 +12,9 @@ public interface BookService {
 
     BookResponseDto save(CreateBookRequestDto requestDto);
 
-    BookResponseDto findById(Long id);
+    BookResponseDto getById(Long id);
 
-    Page<BookResponseDto> findAll(Pageable pageable);
+    Page<BookResponseDto> getAll(Pageable pageable);
 
     BookResponseDto update(Long id, UpdateBookRequestDto requestDto);
 

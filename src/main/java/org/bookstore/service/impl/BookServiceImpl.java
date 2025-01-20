@@ -30,12 +30,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponseDto findById(Long id) {
+    public BookResponseDto getById(Long id) {
         return bookMapper.toDto(getBook(id));
     }
 
     @Override
-    public Page<BookResponseDto> findAll(Pageable pageable) {
+    public Page<BookResponseDto> getAll(Pageable pageable) {
         return bookRepository.findAll(pageable).map(bookMapper::toDto);
     }
 

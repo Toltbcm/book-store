@@ -32,17 +32,17 @@ public class BookController {
 
     private final BookService bookService;
 
-    @Operation(summary = "Get book by ID", description = "Endpoint for getting book by id")
+    @Operation(summary = "Get book by ID", description = "Endpoint for getting book by ID")
     @GetMapping("/{id}")
     public BookResponseDto getById(@PathVariable Long id) {
-        return bookService.findById(id);
+        return bookService.getById(id);
     }
 
     @Operation(summary = "Get all books",
             description = "Endpoint for getting all books. Pageable, sortable")
     @GetMapping
     public Page<BookResponseDto> getAll(Pageable pageable) {
-        return bookService.findAll(pageable);
+        return bookService.getAll(pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -63,7 +63,7 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Delete book", description = "Endpoint for deleting book")
+    @Operation(summary = "Delete book by ID", description = "Endpoint for deleting book by ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

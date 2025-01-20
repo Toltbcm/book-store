@@ -5,7 +5,7 @@ import org.bookstore.dto.request.UserRegistrationRequestDto;
 import org.bookstore.dto.response.UserResponseDto;
 import org.bookstore.model.Role;
 import org.bookstore.model.User;
-import org.bookstore.repository.role.RoleRepository;
+import org.bookstore.service.RoleService;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
@@ -23,11 +23,11 @@ public interface UserMapper {
     @Mapping(target = "authorities", ignore = true)
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
     User toModelWithUserRole(UserRegistrationRequestDto requestDto,
-                             @Context RoleRepository roleRepository);
+                             @Context RoleService roleService);
 
     @AfterMapping
     default void serUserRole(@MappingTarget User user,
-                             @Context RoleRepository roleRepository) {
-        user.getRoles().add(roleRepository.getByName(Role.RoleName.USER));
+                             @Context RoleService roleService) {
+        user.getRoles().add(roleService.getByName(Role.RoleName.USER));
     }
 }
