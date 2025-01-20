@@ -13,11 +13,11 @@ public record UserRegistrationRequestDto(
         String email,
 
         @NotBlank
-        @Size(min = 8, max = 72)
+        @Size(min = 8, max = 36)
         String password,
 
         @NotBlank
-        @Size(min = 8, max = 72)
+        @Size(min = 8, max = 36)
         String confirmPassword,
 
         @NotBlank
