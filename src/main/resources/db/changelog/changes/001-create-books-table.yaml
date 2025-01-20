@@ -12,7 +12,7 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
+                    primaryKeyName: pk_books
               - column:
                   name: title
                   type: varchar(255)

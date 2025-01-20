@@ -11,11 +11,17 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
+                    referencedTableName: books
+                    referencedColumnNames: id
+                    foreignKeyName: fk_book_category_books
               - column:
                   name: category_id
                   type: bigint
                   constraints:
                     nullable: false
+                    referencedTableName: categories
+                    referencedColumnNames: id
+                    foreignKeyName: fk_book_category_categories
         - addPrimaryKey:
             tableName: book_category
             columnNames: book_id, category_id
