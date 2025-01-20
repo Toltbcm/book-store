@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateCategoryRequestDto;
 import org.bookstore.dto.request.UpdateCategoryRequestDto;
-import org.bookstore.dto.response.BookResponseDto;
+import org.bookstore.dto.response.BookWithoutCategoriesResponseDto;
 import org.bookstore.dto.response.CategoryResponseDto;
 import org.bookstore.service.BookService;
 import org.bookstore.service.CategoryService;
@@ -73,11 +73,10 @@ public class CategoryController {
         categoryService.delete(id);
     }
 
-
     @Operation(summary = "Get books by category ID",
             description = "Endpoint for getting books by category ID")
     @GetMapping("/{id}/books")
-    public Page<BookResponseDto> getBooksByCategory(
+    public Page<BookWithoutCategoriesResponseDto> getBooksByCategory(
             @PathVariable Long id, @RequestParam Pageable pageable) {
         return bookService.getAllByCategoryId(id, pageable);
     }

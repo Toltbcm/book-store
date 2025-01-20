@@ -5,6 +5,7 @@ import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
 import org.bookstore.dto.request.search.BookSearchParametersRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
+import org.bookstore.dto.response.BookWithoutCategoriesResponseDto;
 import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.mapper.BookMapper;
 import org.bookstore.model.Book;
@@ -34,8 +35,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookResponseDto> getAll(Pageable pageable) {
-        return bookRepository.findAll(pageable).map(bookMapper::toDto);
+    public Page<BookWithoutCategoriesResponseDto> getAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).map(bookMapper::toDtoWithoutCategories);
     }
 
     @Override
@@ -53,17 +54,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookResponseDto> search(
+    public Page<BookWithoutCategoriesResponseDto> search(
             BookSearchParametersRequestDto searchParametersDto, Pageable pageable) {
         return bookRepository.findAll(bookSpecificationBuilder.build(searchParametersDto), pageable)
-                .map(bookMapper::toDto);
+                .map(bookMapper::toDtoWithoutCategories);
     }
 
     @Override
-    public Page<BookResponseDto> getAllByCategoryId(Long id, Pageable pageable) {
-        return bookRepository.findAllByCategoryId(id, pageable).map(bookMapper::toDto);
+    public Page<BookWithoutCategoriesResponseDto> getAllByCategoryId(Long id, Pageable pageable) {
+        return bookRepository.findAllByCategoryId(id, pageable)
+                .map(bookMapper::toDtoWithoutCategories);
     }
-
 
     private Book getBook(Long id) {
         return bookRepository.findById(id)

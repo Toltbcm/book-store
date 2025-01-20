@@ -1,6 +1,7 @@
 package org.bookstore.dto.response;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public record BookResponseDto(
@@ -13,4 +14,9 @@ public record BookResponseDto(
         String coverImage,
         List<Long> categoryIds
 ) {
+    public BookResponseDto {
+        if (categoryIds == null) {
+            categoryIds = new ArrayList<>();
+        }
+    }
 }

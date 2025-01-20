@@ -3,6 +3,7 @@ package org.bookstore.service;
 import org.bookstore.dto.request.CreateCategoryRequestDto;
 import org.bookstore.dto.request.UpdateCategoryRequestDto;
 import org.bookstore.dto.response.CategoryResponseDto;
+import org.bookstore.model.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,6 @@ public interface CategoryService {
     CategoryResponseDto update(Long id, UpdateCategoryRequestDto requestDto);
 
     void delete(Long id);
+
+    Category getCategory(Long id);
 }

@@ -8,6 +8,7 @@ import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
 import org.bookstore.dto.request.search.BookSearchParametersRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
+import org.bookstore.dto.response.BookWithoutCategoriesResponseDto;
 import org.bookstore.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,7 @@ public class BookController {
     @Operation(summary = "Get all books",
             description = "Endpoint for getting all books. Pageable, sortable")
     @GetMapping
-    public Page<BookResponseDto> getAll(Pageable pageable) {
+    public Page<BookWithoutCategoriesResponseDto> getAll(Pageable pageable) {
         return bookService.getAll(pageable);
     }
 
@@ -72,7 +73,7 @@ public class BookController {
 
     @Operation(summary = "Search books", description = "Endpoint for searching books by parameters")
     @GetMapping("/search")
-    public Page<BookResponseDto> search(
+    public Page<BookWithoutCategoriesResponseDto> search(
             @Valid BookSearchParametersRequestDto searchParameters,
             @RequestParam Pageable pageable) {
         return bookService.search(searchParameters, pageable);
