@@ -21,4 +21,6 @@ public interface BookService {
     void delete(Long id);
 
     List<BookResponseDto> search(BookSearchParametersRequestDto searchParametersDto);
+
+    Page<BookResponseDto> getAllByCategoryId(Long id, Pageable pageable);
 }
