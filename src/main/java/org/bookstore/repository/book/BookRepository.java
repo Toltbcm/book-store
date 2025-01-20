@@ -6,11 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
 
-    @Query("from Book b right join Category c where c.id = ?1")
-    Page<Book> findAllByCategoryId(Long categoryId, Pageable pageable);
+    @Query("FROM Book b JOIN b.categories c WHERE c.id = :categoryId")
+    Page<Book> findAllByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
 }
