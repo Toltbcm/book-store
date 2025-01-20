@@ -45,6 +45,7 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers(HttpMethod.GET,
                                         "/books/**",
+                                        "/categories/**",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**")
                                 .permitAll()
