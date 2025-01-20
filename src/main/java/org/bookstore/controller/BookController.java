@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +39,7 @@ public class BookController {
     }
 
     @Operation(summary = "Get all books",
-            description = "Endpoint for getting all books. Pageable, sortable")
+            description = "Endpoint for getting all books. Pageable. Sortable")
     @GetMapping
     public Page<BookWithoutCategoriesResponseDto> getAll(Pageable pageable) {
         return bookService.getAll(pageable);
@@ -71,11 +70,11 @@ public class BookController {
         bookService.delete(id);
     }
 
-    @Operation(summary = "Search books", description = "Endpoint for searching books by parameters")
+    @Operation(summary = "Search books",
+            description = "Endpoint for searching books by parameters. Pageable. Sortable.")
     @GetMapping("/search")
     public Page<BookWithoutCategoriesResponseDto> search(
-            @Valid BookSearchParametersRequestDto searchParameters,
-            @RequestParam Pageable pageable) {
+            @Valid BookSearchParametersRequestDto searchParameters, Pageable pageable) {
         return bookService.search(searchParameters, pageable);
     }
 }

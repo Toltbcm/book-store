@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,9 +40,9 @@ public class CategoryController {
     }
 
     @Operation(summary = "Get all categories",
-            description = "Endpoint for getting all categories. Pageable, sortable")
+            description = "Endpoint for getting all categories. Pageable. Sortable")
     @GetMapping
-    public Page<CategoryResponseDto> getAll(@RequestParam Pageable pageable) {
+    public Page<CategoryResponseDto> getAll(Pageable pageable) {
         return categoryService.getAll(pageable);
     }
 
@@ -74,10 +73,10 @@ public class CategoryController {
     }
 
     @Operation(summary = "Get books by category ID",
-            description = "Endpoint for getting books by category ID")
+            description = "Endpoint for getting books by category ID. Pageable. Sortable")
     @GetMapping("/{id}/books")
     public Page<BookWithoutCategoriesResponseDto> getBooksByCategory(
-            @PathVariable Long id, @RequestParam Pageable pageable) {
+            @PathVariable Long id, Pageable pageable) {
         return bookService.getAllByCategoryId(id, pageable);
     }
 }
