@@ -18,12 +18,10 @@ databaseChangeLog:
               - column:
                   name: last_name
                   value: Adminov
-        - insert:
-            tableName: user_role
-            columns:
-              - column:
-                  name: user_id
-                  value: 1
-              - column:
-                  name: role_id
-                  value: 1
+        - sql:
+            sql:
+                  INSERT INTO user_role (user_id, role_id) 
+                  VALUES(
+                    (SELECT id FROM users WHERE first_name='Admin'),
+                    (SELECT id FROM roles WHERE name='ADMIN')
+                  );
