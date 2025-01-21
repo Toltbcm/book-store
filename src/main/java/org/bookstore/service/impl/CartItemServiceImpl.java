@@ -34,19 +34,34 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     @Transactional
     public CartItemResponseDto update(Long id, UpdateCartItemRequestDto requestDto) {
-        CartItem fullCartItem = getFullCartItem(id);
-        String email =
-                (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!fullCartItem.getShoppingCart().getUser().getEmail().equals(email)) {
-            throw new AccessDeniedException(
-                    "User " + email + " is not owner of cart item with id: " + id);
-        }
+        CartItem fullCartItem = getAndValidateFullCartItem(id);
         return cartItemMapper.toDto(cartItemRepository.save(
                 cartItemMapper.update(fullCartItem, requestDto)));
+    }
+
+    @Override
+    public void delete(Long id) {
+        getAndValidateFullCartItem(id);
+        cartItemRepository.deleteById(id);
+    }
+
+    private CartItem getAndValidateFullCartItem(Long id) {
+        CartItem fullCartItem = getFullCartItem(id);
+        validateItemOwner(id, fullCartItem);
+        return fullCartItem;
     }
 
     private CartItem getFullCartItem(Long id) {
         return cartItemRepository.findFull(id).orElseThrow(
                 () -> new EntityNotFoundException("Can't find cart item by id: " + id));
+    }
+
+    private void validateItemOwner(Long itemId, CartItem cartItem) {
+        String currentEmail =
+                (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!cartItem.getShoppingCart().getUser().getEmail().equals(currentEmail)) {
+            throw new AccessDeniedException(
+                    "User " + currentEmail + " is not owner of cart item with id: " + itemId);
+        }
     }
 }

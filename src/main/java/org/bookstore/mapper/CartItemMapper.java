@@ -30,6 +30,8 @@ public interface CartItemMapper {
     CartItemResponseDto toDto(CartItem cartItem);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "book", ignore = true)
+    @Mapping(target = "shoppingCart", ignore = true)
     @Mapping(target = "quantity", source = "quantity")
     CartItem update(@MappingTarget CartItem cartItem, UpdateCartItemRequestDto requestDto);
 

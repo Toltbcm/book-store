@@ -10,6 +10,7 @@ import org.bookstore.dto.response.CartItemResponseDto;
 import org.bookstore.dto.response.ShoppingCartResponseDto;
 import org.bookstore.service.CartItemService;
 import org.bookstore.service.ShoppingCartService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Shipping cart", description = "Endpoints for shipping cart management")
@@ -39,6 +41,7 @@ public class ShoppingCartController {
 
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Create cart item", description = "Endpoint for add book(s) to cart")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/items")
     public CartItemResponseDto create(@Valid @RequestBody CreateCartItemRequestDto requestDto) {
         return cartItemService.create(requestDto);
@@ -55,8 +58,9 @@ public class ShoppingCartController {
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Delete cart item",
             description = "Endpoint for deleting book(s) from cart")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/items/{id}")
-    public CartItemResponseDto delete(@PathVariable Long id) {
-        return null;
+    public void delete(@PathVariable Long id) {
+        cartItemService.delete(id);
     }
 }
