@@ -11,6 +11,7 @@ import org.bookstore.repository.user.UserRepository;
 import org.bookstore.service.RoleService;
 import org.bookstore.service.ShoppingCartService;
 import org.bookstore.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final RoleService roleService;
     private final ShoppingCartService shoppingCartService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -30,7 +32,8 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(requestDto.email())) {
             throw new RegistrationException("Can't register user by email: " + requestDto.email());
         }
-        User user = userRepository.save(userMapper.toModelWithUserRole(requestDto, roleService));
+        User user = userRepository.save(userMapper.toModelWithUserRole(
+                requestDto, roleService, passwordEncoder));
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCartService.create(shoppingCart);

@@ -23,12 +23,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartResponseDto get() {
-        String email =
-                (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ShoppingCart fullByUserEmail = shoppingCartRepository.fetchFullByUserEmail(email)
+    public ShoppingCartResponseDto getCurrent() {
+        ShoppingCart shoppingCartFull = shoppingCartRepository.fetchFullByUserEmail(getEmail())
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Can't find cart item for user: " + email));
-        return shoppingCartMapper.toDto(fullByUserEmail);
+                        "Can't find cart for user: " + getEmail()));
+        return shoppingCartMapper.toDto(shoppingCartFull);
+    }
+
+    @Override
+    public ShoppingCart getCurrentCart() {
+        return shoppingCartRepository.findByUserEmail(getEmail())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can't find cart for user: " + getEmail()));
+    }
+
+    private String getEmail() {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

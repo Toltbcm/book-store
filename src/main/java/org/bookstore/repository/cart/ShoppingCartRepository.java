@@ -13,4 +13,7 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long
     @Query("FROM ShoppingCart c JOIN FETCH c.cartItems i JOIN FETCH i.book b "
             + "JOIN FETCH c.user u WHERE u.email = :email")
     Optional<ShoppingCart> fetchFullByUserEmail(@Param("email") String email);
+
+    @Query("FROM ShoppingCart c JOIN c.user u WHERE u.email = :email")
+    Optional<ShoppingCart> findByUserEmail(@Param("email") String email);
 }

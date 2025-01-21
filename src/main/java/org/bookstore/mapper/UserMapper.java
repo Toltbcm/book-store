@@ -11,6 +11,8 @@ import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Mapper(config = MapperConfig.class, uses = MapperUtil.class)
 public interface UserMapper {
@@ -23,11 +25,17 @@ public interface UserMapper {
     @Mapping(target = "authorities", ignore = true)
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
     User toModelWithUserRole(UserRegistrationRequestDto requestDto,
-                             @Context RoleService roleService);
+                             @Context RoleService roleService,
+                             @Context PasswordEncoder passwordEncoder);
 
     @AfterMapping
     default void serUserRole(@MappingTarget User user,
                              @Context RoleService roleService) {
         user.getRoles().add(roleService.getByName(Role.RoleName.USER));
+    }
+
+    @Named("encodePassword")
+    default String encodePassword(String password, @Context PasswordEncoder passwordEncoder) {
+        return passwordEncoder.encode(password);
     }
 }
