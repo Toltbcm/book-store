@@ -11,6 +11,8 @@ import org.bookstore.repository.item.CartItemRepository;
 import org.bookstore.service.BookService;
 import org.bookstore.service.CartItemService;
 import org.bookstore.service.ShoppingCartService;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +34,15 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     @Transactional
     public CartItemResponseDto update(Long id, UpdateCartItemRequestDto requestDto) {
+        CartItem fullCartItem = getFullCartItem(id);
+        String email =
+                (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!fullCartItem.getShoppingCart().getUser().getEmail().equals(email)) {
+            throw new AccessDeniedException(
+                    "User " + email + " is not owner of cart item with id: " + id);
+        }
         return cartItemMapper.toDto(cartItemRepository.save(
-                cartItemMapper.update(getFullCartItem(id), requestDto)));
+                cartItemMapper.update(fullCartItem, requestDto)));
     }
 
     private CartItem getFullCartItem(Long id) {

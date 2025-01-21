@@ -44,6 +44,7 @@ public class ShoppingCartController {
         return cartItemService.create(requestDto);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Update cart item", description = "Endpoint for updating books quantity")
     @PutMapping("/items/{id}")
     public CartItemResponseDto update(
@@ -51,6 +52,7 @@ public class ShoppingCartController {
         return cartItemService.update(id, requestDto);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Delete cart item",
             description = "Endpoint for deleting book(s) from cart")
     @DeleteMapping("/items/{id}")

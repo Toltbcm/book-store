@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
-    @Query("FROM CartItem i JOIN FETCH i.book JOIN FETCH i.shoppingCart WHERE i.id = :id")
+    @Query("FROM CartItem i JOIN FETCH i.book JOIN FETCH i.shoppingCart c "
+            + "JOIN FETCH c.user WHERE i.id = :id")
     Optional<CartItem> findFull(@Param("id") Long id);
 }
