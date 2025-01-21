@@ -52,7 +52,7 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     private CartItem getFullCartItem(Long id) {
-        return cartItemRepository.fetchFullById(id).orElseThrow(
+        return cartItemRepository.findByIdWithBookAndCartWithUser(id).orElseThrow(
                 () -> new EntityNotFoundException("Can't find cart item by id: " + id));
     }
 

@@ -24,7 +24,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartResponseDto getCurrent() {
-        ShoppingCart shoppingCartFull = shoppingCartRepository.fetchFullByUserEmail(getEmail())
+        ShoppingCart shoppingCartFull = shoppingCartRepository.findByUserEmailWithItemsWithBookAndUser(getEmail())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Can't find cart for user: " + getEmail()));
         return shoppingCartMapper.toDto(shoppingCartFull);

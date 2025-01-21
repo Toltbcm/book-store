@@ -37,7 +37,7 @@ public interface CartItemMapper {
 
     @Named("setBook")
     default Book setBook(Long id, @Context BookService bookService) {
-        return bookService.getBook(id);
+        return null;
     }
 
     default ShoppingCart setShoppingCart(@Context ShoppingCartService shoppingCartService) {

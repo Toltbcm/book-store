@@ -2,6 +2,7 @@ package org.bookstore.mapper;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.bookstore.config.MapperConfig;
 import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
