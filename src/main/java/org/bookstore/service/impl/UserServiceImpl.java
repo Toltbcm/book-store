@@ -1,10 +1,12 @@
 package org.bookstore.service.impl;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.UserRegistrationRequestDto;
 import org.bookstore.dto.response.UserResponseDto;
 import org.bookstore.exception.RegistrationException;
 import org.bookstore.mapper.UserMapper;
+import org.bookstore.model.Role;
 import org.bookstore.model.ShoppingCart;
 import org.bookstore.model.User;
 import org.bookstore.repository.user.UserRepository;
@@ -32,8 +34,10 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(requestDto.email())) {
             throw new RegistrationException("Can't register user by email: " + requestDto.email());
         }
-        User user = userRepository.save(userMapper.toModelWithUserRole(
-                requestDto, roleService, passwordEncoder));
+        User user = userRepository.save(userMapper.toModelWithRoles(
+                requestDto,
+                List.of(roleService.geRoleByName(Role.RoleName.USER)),
+                passwordEncoder));
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCartService.create(shoppingCart);

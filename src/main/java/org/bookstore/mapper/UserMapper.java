@@ -1,11 +1,11 @@
 package org.bookstore.mapper;
 
+import java.util.List;
 import org.bookstore.config.MapperConfig;
 import org.bookstore.dto.request.UserRegistrationRequestDto;
 import org.bookstore.dto.response.UserResponseDto;
 import org.bookstore.model.Role;
 import org.bookstore.model.User;
-import org.bookstore.service.RoleService;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
@@ -24,14 +24,13 @@ public interface UserMapper {
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "authorities", ignore = true)
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
-    User toModelWithUserRole(UserRegistrationRequestDto requestDto,
-                             @Context RoleService roleService,
-                             @Context PasswordEncoder passwordEncoder);
+    User toModelWithRoles(UserRegistrationRequestDto requestDto,
+                          @Context List<Role> roles,
+                          @Context PasswordEncoder passwordEncoder);
 
     @AfterMapping
-    default void serUserRole(@MappingTarget User user,
-                             @Context RoleService roleService) {
-        user.getRoles().add(roleService.geRoleByName(Role.RoleName.USER));
+    default void serUserRole(@MappingTarget User user, @Context List<Role> roles) {
+        user.getRoles().addAll(roles);
     }
 
     @Named("encodePassword")
