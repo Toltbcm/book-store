@@ -2,13 +2,17 @@ package org.bookstore.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateCartItemRequestDto;
+import org.bookstore.dto.request.UpdateCartItemRequestDto;
 import org.bookstore.dto.response.CartItemResponseDto;
+import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.mapper.CartItemMapper;
+import org.bookstore.model.CartItem;
 import org.bookstore.repository.item.CartItemRepository;
 import org.bookstore.service.BookService;
 import org.bookstore.service.CartItemService;
 import org.bookstore.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,5 +27,17 @@ public class CartItemServiceImpl implements CartItemService {
     public CartItemResponseDto create(CreateCartItemRequestDto requestDto) {
         return cartItemMapper.toDto(cartItemRepository.save(
                 cartItemMapper.toModel(requestDto, bookService, shoppingCartService)));
+    }
+
+    @Override
+    @Transactional
+    public CartItemResponseDto update(Long id, UpdateCartItemRequestDto requestDto) {
+        return cartItemMapper.toDto(cartItemRepository.save(
+                cartItemMapper.update(getFullCartItem(id), requestDto)));
+    }
+
+    private CartItem getFullCartItem(Long id) {
+        return cartItemRepository.findFull(id).orElseThrow(
+                () -> new EntityNotFoundException("Can't find cart item by id: " + id));
     }
 }

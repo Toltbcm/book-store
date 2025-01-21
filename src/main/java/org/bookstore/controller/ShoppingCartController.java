@@ -48,7 +48,7 @@ public class ShoppingCartController {
     @PutMapping("/items/{id}")
     public CartItemResponseDto update(
             @PathVariable Long id, @Valid @RequestBody UpdateCartItemRequestDto requestDto) {
-        return null;
+        return cartItemService.update(id, requestDto);
     }
 
     @Operation(summary = "Delete cart item",

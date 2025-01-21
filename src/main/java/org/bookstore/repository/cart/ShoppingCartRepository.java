@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
 
-    @Query("FROM ShoppingCart c JOIN FETCH c.cartItems i JOIN FETCH i.book b "
+    @Query("FROM ShoppingCart c JOIN FETCH c.cartItems i JOIN FETCH i.book "
             + "JOIN FETCH c.user u WHERE u.email = :email")
     Optional<ShoppingCart> fetchFullByUserEmail(@Param("email") String email);
 
