@@ -7,23 +7,21 @@ import org.bookstore.dto.response.CartItemResponseDto;
 import org.bookstore.model.Book;
 import org.bookstore.model.CartItem;
 import org.bookstore.model.ShoppingCart;
-import org.bookstore.service.BookService;
-import org.bookstore.service.ShoppingCartService;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
 public interface CartItemMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "book", source = "bookId", qualifiedByName = "setBook")
-    @Mapping(target = "shoppingCart", expression = "java(setShoppingCart(shoppingCartService))")
-    CartItem toModel(CreateCartItemRequestDto requestDto,
-                     @Context BookService bookService,
-                     @Context ShoppingCartService shoppingCartService);
+    @Mapping(target = "book", ignore = true)
+    @Mapping(target = "shoppingCart", ignore = true)
+    CartItem toModel(
+            CreateCartItemRequestDto requestDto,
+            @Context Book book, @Context ShoppingCart shoppingCart);
 
     @Mapping(target = "bookId", source = "cartItem.book.id")
     @Mapping(target = "bookTitle", source = "cartItem.book.title")
@@ -35,12 +33,11 @@ public interface CartItemMapper {
     @Mapping(target = "quantity", source = "quantity")
     CartItem update(@MappingTarget CartItem cartItem, UpdateCartItemRequestDto requestDto);
 
-    @Named("setBook")
-    default Book setBook(Long id, @Context BookService bookService) {
-        return null;
-    }
-
-    default ShoppingCart setShoppingCart(@Context ShoppingCartService shoppingCartService) {
-        return shoppingCartService.getCurrentCart();
+    @AfterMapping
+    default void setBookAndCart(
+            @MappingTarget CartItem cartItem,
+            @Context Book book, @Context ShoppingCart shoppingCart) {
+        cartItem.setBook(book);
+        cartItem.setShoppingCart(shoppingCart);
     }
 }

@@ -6,7 +6,9 @@ import org.bookstore.dto.request.UpdateCartItemRequestDto;
 import org.bookstore.dto.response.CartItemResponseDto;
 import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.mapper.CartItemMapper;
+import org.bookstore.model.Book;
 import org.bookstore.model.CartItem;
+import org.bookstore.model.ShoppingCart;
 import org.bookstore.repository.item.CartItemRepository;
 import org.bookstore.service.BookService;
 import org.bookstore.service.CartItemService;
@@ -22,13 +24,15 @@ public class CartItemServiceImpl implements CartItemService {
 
     private final CartItemRepository cartItemRepository;
     private final CartItemMapper cartItemMapper;
-    private final BookService bookService;
     private final ShoppingCartService shoppingCartService;
+    private final BookService bookService;
 
     @Override
     public CartItemResponseDto create(CreateCartItemRequestDto requestDto) {
+        Book book = bookService.getBookById(requestDto.bookId());
+        ShoppingCart shoppingCart = shoppingCartService.getCurrentCart();
         return cartItemMapper.toDto(cartItemRepository.save(
-                cartItemMapper.toModel(requestDto, bookService, shoppingCartService)));
+                cartItemMapper.toModel(requestDto, book, shoppingCart)));
     }
 
     @Override

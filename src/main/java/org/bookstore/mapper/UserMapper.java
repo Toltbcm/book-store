@@ -29,7 +29,7 @@ public interface UserMapper {
                           @Context PasswordEncoder passwordEncoder);
 
     @AfterMapping
-    default void serUserRole(@MappingTarget User user, @Context List<Role> roles) {
+    default void setRoles(@MappingTarget User user, @Context List<Role> roles) {
         user.getRoles().addAll(roles);
     }
 
