@@ -8,6 +8,8 @@ import org.bookstore.dto.request.CreateCartItemRequestDto;
 import org.bookstore.dto.request.UpdateCartItemRequestDto;
 import org.bookstore.dto.response.CartItemResponseDto;
 import org.bookstore.dto.response.ShoppingCartResponseDto;
+import org.bookstore.service.ShoppingCartService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,11 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("cart")
 public class ShoppingCartController {
 
+    private final ShoppingCartService shoppingCartService;
+
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Get shipping cart",
             description = "Endpoint for getting shipping cart for current user")
     @GetMapping
     public ShoppingCartResponseDto get() {
-        return null;
+        return shoppingCartService.get();
     }
 
     @Operation(summary = "Create cart item", description = "Endpoint for add book(s) to cart")
