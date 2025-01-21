@@ -20,8 +20,8 @@ databaseChangeLog:
                   value: Adminov
         - sql:
             sql:
-                  INSERT INTO user_role (user_id, role_id) 
+                  INSERT INTO users_roles (user_id, role_id) 
                   VALUES(
-                    (SELECT id FROM users WHERE first_name='Admin'),
+                    (SELECT id FROM users WHERE email='admin@books.com'),
                     (SELECT id FROM roles WHERE name='ADMIN')
                   );

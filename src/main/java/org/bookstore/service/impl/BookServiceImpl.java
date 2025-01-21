@@ -12,7 +12,6 @@ import org.bookstore.model.Book;
 import org.bookstore.repository.book.BookRepository;
 import org.bookstore.repository.book.specificaton.BookSpecificationBuilder;
 import org.bookstore.service.BookService;
-import org.bookstore.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,17 +23,19 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder bookSpecificationBuilder;
-    private final CategoryService categoryService;
+
+    private static String notFoundBookMessage(Long id) {
+        return String.format("Can't find book with id: %d", id);
+    }
 
     @Override
     public BookResponseDto save(CreateBookRequestDto requestDto) {
-        return bookMapper.toDto(bookRepository.save(
-                bookMapper.toModel(requestDto, categoryService)));
+        return bookMapper.toDto(bookRepository.save(bookMapper.toModel(requestDto)));
     }
 
     @Override
     public BookResponseDto getById(Long id) {
-        return bookMapper.toDto(getBook(id));
+        return bookMapper.toDto(getBookWithCategoryById(id));
     }
 
     @Override
@@ -44,14 +45,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponseDto update(Long id, UpdateBookRequestDto requestDto) {
-        return bookMapper.toDto(bookRepository.save(
-                bookMapper.updateModel(getBook(id), requestDto, categoryService)));
+        Book book = getBookById(id);
+        return bookMapper.toDto(bookRepository.save(bookMapper.updateModel(book, requestDto)));
     }
 
     @Override
     public void delete(Long id) {
         if (!bookRepository.existsById(id)) {
-            throw new EntityNotFoundException("Can't find book with id: " + id);
+            throw new EntityNotFoundException(notFoundBookMessage(id));
         }
         bookRepository.deleteById(id);
     }
@@ -69,9 +70,13 @@ public class BookServiceImpl implements BookService {
                 .map(bookMapper::toDtoWithoutCategories);
     }
 
-    @Override
-    public Book getBook(Long id) {
+    private Book getBookById(Long id) {
         return bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find book with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(notFoundBookMessage(id)));
+    }
+
+    private Book getBookWithCategoryById(Long id) {
+        return bookRepository.findByIdWithCategory(id)
+                .orElseThrow(() -> new EntityNotFoundException(notFoundBookMessage(id)));
     }
 }
