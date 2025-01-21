@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: add-admin-to-user-table
+      id: add-admin-to-users-table
       author: Anatolii Olkhovskyi
       changes:
         - insert:

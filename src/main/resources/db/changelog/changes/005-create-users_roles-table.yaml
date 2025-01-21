@@ -13,7 +13,7 @@ databaseChangeLog:
                     nullable: false
                     referencedTableName: users
                     referencedColumnNames: id
-                    foreignKeyName: fk_user_role_users
+                    foreignKeyName: fk_users_roles_users
               - column:
                   name: role_id
                   type: bigint
@@ -21,7 +21,7 @@ databaseChangeLog:
                     nullable: false
                     referencedTableName: roles
                     referencedColumnNames: id
-                    foreignKeyName: fk_user_role_roles
+                    foreignKeyName: fk_users_roles_roles
         - addPrimaryKey:
             tableName: users_roles
             columnNames: user_id, role_id
