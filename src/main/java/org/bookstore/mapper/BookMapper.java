@@ -1,5 +1,8 @@
 package org.bookstore.mapper;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.bookstore.config.MapperConfig;
 import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
@@ -8,14 +11,13 @@ import org.bookstore.dto.response.BookWithoutCategoriesResponseDto;
 import org.bookstore.model.Book;
 import org.bookstore.model.Category;
 import org.mapstruct.AfterMapping;
-import org.mapstruct.BeanMapping;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.Named;
 
-@Mapper(config = MapperConfig.class, uses = MapperUtil.class,
+@Mapper(config = MapperConfig.class,
         collectionMappingStrategy = CollectionMappingStrategy.TARGET_IMMUTABLE)
 public interface BookMapper {
 
@@ -32,8 +34,12 @@ public interface BookMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "deleted", ignore = true)
     @Mapping(target = "categories", source = "categoryIds", qualifiedByName = "setCategories")
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Book updateModel(@MappingTarget Book book, UpdateBookRequestDto requestDto);
+
+    @Named("setCategories")
+    default Set<Category> setCategories(List<Long> categoryIds) {
+        return categoryIds.stream().map(Category::new).collect(Collectors.toSet());
+    }
 
     @AfterMapping
     default void setCategoryIds(@MappingTarget BookResponseDto responseDto, Book book) {

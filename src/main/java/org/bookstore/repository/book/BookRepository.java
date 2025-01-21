@@ -1,5 +1,6 @@
 package org.bookstore.repository.book;
 
+import java.util.Optional;
 import org.bookstore.model.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +15,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
 
     @Query("FROM Book b JOIN b.categories c WHERE c.id = :categoryId")
     Page<Book> findAllByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
+
+    @Query("FROM Book b JOIN FETCH b.categories WHERE b.id = :id")
+    Optional<Book> findByIdWithCategory(@Param("id") Long id);
 }
