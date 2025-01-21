@@ -4,5 +4,5 @@ import org.bookstore.model.Role;
 
 public interface RoleService {
 
-    Role geRoleByName(Role.RoleName name);
+    Role getRoleByName(Role.RoleName name);
 }
