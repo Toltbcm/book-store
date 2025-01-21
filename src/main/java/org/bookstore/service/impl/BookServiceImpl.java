@@ -31,7 +31,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponseDto getById(Long id) {
-        return bookMapper.toDto(getBook(id));
+        return bookMapper.toDto(getBookById(id));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponseDto update(Long id, UpdateBookRequestDto requestDto) {
-        Book book = getBook(id);
+        Book book = getBookById(id);
         return bookMapper.toDto(bookRepository.save(bookMapper.updateModel(book, requestDto)));
     }
 
@@ -66,7 +66,7 @@ public class BookServiceImpl implements BookService {
                 .map(bookMapper::toDtoWithoutCategories);
     }
 
-    private Book getBook(Long id) {
+    private Book getBookById(Long id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find book with id: " + id));
     }

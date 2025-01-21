@@ -25,7 +25,7 @@ public class MapperUtil {
     @Named("setCategories")
     public Set<Category> setCategories(List<Long> ids) {
         Set<Category> categories = new HashSet<>();
-        ids.forEach(id -> categories.add(categoryService.getCategory(id)));
+        ids.forEach(id -> categories.add(categoryService.getCategoryById(id)));
         return categories;
     }
 }
