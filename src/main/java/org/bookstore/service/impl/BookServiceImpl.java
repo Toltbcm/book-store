@@ -12,6 +12,7 @@ import org.bookstore.model.Book;
 import org.bookstore.repository.book.BookRepository;
 import org.bookstore.repository.book.specificaton.BookSpecificationBuilder;
 import org.bookstore.service.BookService;
+import org.bookstore.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,12 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder bookSpecificationBuilder;
+    private final CategoryService categoryService;
 
     @Override
     public BookResponseDto save(CreateBookRequestDto requestDto) {
-        return bookMapper.toDto(bookRepository.save(bookMapper.toModel(requestDto)));
+        return bookMapper.toDto(bookRepository.save(
+                bookMapper.toModel(requestDto, categoryService)));
     }
 
     @Override
@@ -42,7 +45,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookResponseDto update(Long id, UpdateBookRequestDto requestDto) {
         Book book = getBook(id);
-        return bookMapper.toDto(bookRepository.save(bookMapper.updateModel(book, requestDto)));
+        return bookMapper.toDto(bookRepository.save(
+                bookMapper.updateModel(book, requestDto, categoryService)));
     }
 
     @Override

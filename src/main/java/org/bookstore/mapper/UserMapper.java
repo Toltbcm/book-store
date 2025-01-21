@@ -14,7 +14,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Mapper(config = MapperConfig.class, uses = MapperUtil.class)
+@Mapper(config = MapperConfig.class)
 public interface UserMapper {
 
     UserResponseDto toDto(User user);
