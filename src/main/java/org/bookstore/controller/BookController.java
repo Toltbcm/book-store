@@ -3,12 +3,12 @@ package org.bookstore.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateBookRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
 import org.bookstore.dto.request.search.BookSearchParametersRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
+import org.bookstore.dto.response.BookWithoutCategoriesResponseDto;
 import org.bookstore.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,9 +39,9 @@ public class BookController {
     }
 
     @Operation(summary = "Get all books",
-            description = "Endpoint for getting all books. Pageable, sortable")
+            description = "Endpoint for getting all books. Pageable. Sortable")
     @GetMapping
-    public Page<BookResponseDto> getAll(Pageable pageable) {
+    public Page<BookWithoutCategoriesResponseDto> getAll(Pageable pageable) {
         return bookService.getAll(pageable);
     }
 
@@ -58,7 +58,7 @@ public class BookController {
     @PutMapping("/{id}")
     public BookResponseDto update(
             @PathVariable Long id,
-            @RequestBody @Valid UpdateBookRequestDto requestDto) {
+            @Valid @RequestBody UpdateBookRequestDto requestDto) {
         return bookService.update(id, requestDto);
     }
 
@@ -70,9 +70,11 @@ public class BookController {
         bookService.delete(id);
     }
 
-    @Operation(summary = "Search books", description = "Endpoint for searching books by parameters")
+    @Operation(summary = "Search books",
+            description = "Endpoint for searching books by parameters. Pageable. Sortable.")
     @GetMapping("/search")
-    public List<BookResponseDto> search(@Valid BookSearchParametersRequestDto searchParameters) {
-        return bookService.search(searchParameters);
+    public Page<BookWithoutCategoriesResponseDto> search(
+            @Valid BookSearchParametersRequestDto searchParameters, Pageable pageable) {
+        return bookService.search(searchParameters, pageable);
     }
 }

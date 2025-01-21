@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Anatolii Olkhovskyi
       changes:
         - createTable:
-            tableName: user_role
+            tableName: users_roles
             columns:
               - column:
                   name: user_id
@@ -17,6 +17,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addPrimaryKey:
-            tableName: user_role
+            tableName: users_roles
             columnNames: user_id, role_id
-            constraintName: pk_user_role
+            constraintName: pk_users_roles

@@ -19,7 +19,7 @@ databaseChangeLog:
                   name: last_name
                   value: Adminov
         - insert:
-            tableName: user_role
+            tableName: users_roles
             columns:
               - column:
                   name: user_id

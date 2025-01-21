@@ -28,6 +28,6 @@ public interface UserMapper {
     @AfterMapping
     default void serUserRole(@MappingTarget User user,
                              @Context RoleService roleService) {
-        user.getRoles().add(roleService.getByName(Role.RoleName.USER));
+        user.getRoles().add(roleService.geRoletByName(Role.RoleName.USER));
     }
 }
