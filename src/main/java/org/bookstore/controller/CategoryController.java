@@ -59,7 +59,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     public CategoryResponseDto update(
             @PathVariable Long id,
-            @RequestBody @Valid UpdateCategoryRequestDto requestDto) {
+            @Valid @RequestBody UpdateCategoryRequestDto requestDto) {
         return categoryService.update(id, requestDto);
     }
 
