@@ -34,18 +34,18 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     @Transactional
     public CartItemResponseDto update(Long id, UpdateCartItemRequestDto requestDto) {
-        CartItem fullCartItem = getAndValidateFullCartItem(id);
+        CartItem fullCartItem = getFullItemAndValidateForExistenceAndOwner(id);
         return cartItemMapper.toDto(cartItemRepository.save(
                 cartItemMapper.update(fullCartItem, requestDto)));
     }
 
     @Override
     public void delete(Long id) {
-        getAndValidateFullCartItem(id);
+        getFullItemAndValidateForExistenceAndOwner(id);
         cartItemRepository.deleteById(id);
     }
 
-    private CartItem getAndValidateFullCartItem(Long id) {
+    private CartItem getFullItemAndValidateForExistenceAndOwner(Long id) {
         CartItem fullCartItem = getFullCartItem(id);
         validateItemOwner(id, fullCartItem);
         return fullCartItem;
