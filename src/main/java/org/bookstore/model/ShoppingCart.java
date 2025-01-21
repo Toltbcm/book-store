@@ -11,6 +11,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Set;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -22,10 +24,14 @@ public class ShoppingCart {
     @Column(name = "id")
     private Long id;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "shoppingCart")
     private Set<CartItem> cartItems;
 }
