@@ -15,7 +15,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getByName(Role.RoleName name) {
-        return roleRepository.getByName(name).orElseThrow(
+        return roleRepository.findByName(name).orElseThrow(
                 () -> new EntityNotFoundException("Can't find role with name: " + name));
     }
 }
