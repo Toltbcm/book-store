@@ -1,4 +1,4 @@
-package org.bookstore.repository.role;
+package org.bookstore.repository;
 
 import java.util.Optional;
 import org.bookstore.model.Role;

@@ -3,7 +3,7 @@ package org.bookstore.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.model.Role;
-import org.bookstore.repository.role.RoleRepository;
+import org.bookstore.repository.RoleRepository;
 import org.bookstore.service.RoleService;
 import org.springframework.stereotype.Service;
 

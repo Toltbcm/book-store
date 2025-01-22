@@ -1,4 +1,4 @@
-package org.bookstore.repository.book.specificaton;
+package org.bookstore.repository.spicification.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;

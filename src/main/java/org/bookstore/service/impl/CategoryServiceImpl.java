@@ -7,7 +7,7 @@ import org.bookstore.dto.response.CategoryResponseDto;
 import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.mapper.CategoryMapper;
 import org.bookstore.model.Category;
-import org.bookstore.repository.category.CategoryRepository;
+import org.bookstore.repository.CategoryRepository;
 import org.bookstore.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

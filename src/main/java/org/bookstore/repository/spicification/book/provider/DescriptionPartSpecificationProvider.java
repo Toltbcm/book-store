@@ -1,4 +1,4 @@
-package org.bookstore.repository.book.specificaton.provider;
+package org.bookstore.repository.spicification.book.provider;
 
 import org.bookstore.constant.SpecificationProviderKey;
 import org.bookstore.model.Book;
@@ -7,18 +7,18 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorPartSpecificationProvider implements SpecificationProvider<Book, String> {
+public class DescriptionPartSpecificationProvider implements SpecificationProvider<Book, String> {
 
     @Override
     public String getKey() {
-        return SpecificationProviderKey.Book.AUTHOR_PART;
+        return SpecificationProviderKey.Book.DESCRIPTION_PART;
     }
 
     @Override
-    public Specification<Book> getSpecification(String authorPart) {
+    public Specification<Book> getSpecification(String descriptionPart) {
         return (root, query, criteriaBuilder)
                 -> criteriaBuilder.like(
-                criteriaBuilder.lower(root.get("author")),
-                "%" + authorPart.toLowerCase() + "%");
+                criteriaBuilder.lower(root.get("description")),
+                "%" + descriptionPart.toLowerCase() + "%");
     }
 }

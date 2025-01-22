@@ -5,7 +5,7 @@ import org.bookstore.dto.request.UserRegistrationRequestDto;
 import org.bookstore.dto.response.UserResponseDto;
 import org.bookstore.exception.RegistrationException;
 import org.bookstore.mapper.UserMapper;
-import org.bookstore.repository.user.UserRepository;
+import org.bookstore.repository.UserRepository;
 import org.bookstore.service.RoleService;
 import org.bookstore.service.UserService;
 import org.springframework.stereotype.Service;
