@@ -9,7 +9,7 @@ import org.bookstore.mapper.UserMapper;
 import org.bookstore.model.Role;
 import org.bookstore.model.ShoppingCart;
 import org.bookstore.model.User;
-import org.bookstore.repository.user.UserRepository;
+import org.bookstore.repository.UserRepository;
 import org.bookstore.service.RoleService;
 import org.bookstore.service.ShoppingCartService;
 import org.bookstore.service.UserService;

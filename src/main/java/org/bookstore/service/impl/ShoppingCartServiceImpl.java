@@ -5,7 +5,7 @@ import org.bookstore.dto.response.ShoppingCartResponseDto;
 import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.mapper.ShoppingCartMapper;
 import org.bookstore.model.ShoppingCart;
-import org.bookstore.repository.shoppingcart.ShoppingCartRepository;
+import org.bookstore.repository.ShoppingCartRepository;
 import org.bookstore.service.ShoppingCartService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
