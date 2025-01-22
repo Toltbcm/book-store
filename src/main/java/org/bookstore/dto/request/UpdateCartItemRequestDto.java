@@ -7,6 +7,6 @@ public record UpdateCartItemRequestDto(
 
         @NotNull
         @Positive
-        Integer quantity
+        int quantity
 ) {
 }

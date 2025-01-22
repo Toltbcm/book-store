@@ -10,6 +10,6 @@ public record CreateCartItemRequestDto(
 
         @NotNull
         @Positive
-        Integer quantity
+        int quantity
 ) {
 }
