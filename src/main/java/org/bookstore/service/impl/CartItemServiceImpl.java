@@ -9,7 +9,7 @@ import org.bookstore.mapper.CartItemMapper;
 import org.bookstore.model.Book;
 import org.bookstore.model.CartItem;
 import org.bookstore.model.ShoppingCart;
-import org.bookstore.repository.cartitem.CartItemRepository;
+import org.bookstore.repository.CartItemRepository;
 import org.bookstore.service.BookService;
 import org.bookstore.service.CartItemService;
 import org.bookstore.service.ShoppingCartService;
