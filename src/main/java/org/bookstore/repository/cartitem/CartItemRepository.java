@@ -1,4 +1,4 @@
-package org.bookstore.repository.item;
+package org.bookstore.repository.cartitem;
 
 import java.util.Optional;
 import org.bookstore.model.CartItem;
