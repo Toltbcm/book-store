@@ -1,4 +1,4 @@
-package org.bookstore.repository.book.specificaton.provider;
+package org.bookstore.repository.spicification.book.provider;
 
 import java.math.BigDecimal;
 import org.bookstore.constant.SpecificationProviderKey;
