@@ -61,8 +61,7 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     private void validateItemOwner(Long itemId, CartItem cartItem) {
-        String currentEmail =
-                (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!cartItem.getShoppingCart().getUser().getEmail().equals(currentEmail)) {
             throw new AccessDeniedException(
                     "User " + currentEmail + " is not owner of cart item with id: " + itemId);
