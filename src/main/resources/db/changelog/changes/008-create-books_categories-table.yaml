@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-book_category-table
+      id: create-books_categories-table
       author: Anatolii Olkhovskyi
       changes:
         - createTable:
@@ -11,11 +11,17 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
+                    referencedTableName: books
+                    referencedColumnNames: id
+                    foreignKeyName: fk_books_categories_books
               - column:
                   name: category_id
                   type: bigint
                   constraints:
                     nullable: false
+                    referencedTableName: categories
+                    referencedColumnNames: id
+                    foreignKeyName: fk_books_categories_categories
         - addPrimaryKey:
             tableName: books_categories
             columnNames: book_id, category_id

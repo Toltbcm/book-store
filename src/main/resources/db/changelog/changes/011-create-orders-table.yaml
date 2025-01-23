@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-users-table
+      id: create-orders-table
       author: Anatolii Olkhovskyi
       changes:
         - createTable:
-            tableName: users
+            tableName: orders
             columns:
               - column:
                   name: id
@@ -12,34 +12,32 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    primaryKeyName: pk_users
+                    primaryKeyName: pk_orders
               - column:
-                  name: email
-                  type: varchar(100)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: password
-                  type: bpchar(60)
+                  name: user_id
+                  type: bigint
                   constraints:
                     nullable: false
+                    referencedTableName: users
+                    referencedColumnNames: id
+                    foreignKeyName: fk_orders_users
               - column:
-                  name: first_name
-                  type: varchar(35)
+                  name: status
+                  type: varchar(20)
                   constraints:
                     nullable: false
               - column:
-                  name: last_name
-                  type: varchar(35)
+                  name: total
+                  type: numeric
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_date
+                  type: timestamp
                   constraints:
                     nullable: false
               - column:
                   name: shipping_address
                   type: varchar(255)
-              - column:
-                  name: is_deleted
-                  type: boolean
-                  defaultValueBoolean: false
                   constraints:
                     nullable: false
