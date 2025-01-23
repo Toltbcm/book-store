@@ -7,7 +7,7 @@ public interface ShoppingCartService {
 
     ShoppingCart save(ShoppingCart shoppingCart);
 
-    ShoppingCartResponseDto getCurrentCartWithItemsWithBookAndUser();
+    ShoppingCartResponseDto getCurrentWithItemsWithBookAndUser();
 
     ShoppingCart getCurrentCart();
 }

@@ -36,7 +36,7 @@ public class ShoppingCartController {
             description = "Endpoint for getting shipping cart for current user")
     @GetMapping
     public ShoppingCartResponseDto get() {
-        return shoppingCartService.getCurrentCartWithItemsWithBookAndUser();
+        return shoppingCartService.getCurrentWithItemsWithBookAndUser();
     }
 
     @PreAuthorize("hasRole('USER')")
