@@ -12,7 +12,7 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
+                    primaryKeyName: pk_users
               - column:
                   name: email
                   type: varchar(100)
