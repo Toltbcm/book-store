@@ -10,6 +10,8 @@ import org.bookstore.dto.response.OrderItemResponseDto;
 import org.bookstore.dto.response.OrderResponseDto;
 import org.bookstore.service.OrderItemService;
 import org.bookstore.service.OrderService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +44,8 @@ public class OrderController {
     @Operation(summary = "Get order history",
             description = "Endpoint for getting order history for current user")
     @GetMapping
-    public List<OrderResponseDto> getAll() {
-        return List.of();
+    public Page<OrderResponseDto> getAll(Pageable pageable) {
+        return orderService.getAll(pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

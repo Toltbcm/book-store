@@ -13,6 +13,8 @@ import org.bookstore.repository.UserRepository;
 import org.bookstore.service.RoleService;
 import org.bookstore.service.ShoppingCartService;
 import org.bookstore.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +44,12 @@ public class UserServiceImpl implements UserService {
         shoppingCart.setUser(user);
         shoppingCartService.save(shoppingCart);
         return userMapper.toDto(user);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("Can't find user by email: " + email));
     }
 }
