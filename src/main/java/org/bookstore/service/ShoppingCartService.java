@@ -9,5 +9,7 @@ public interface ShoppingCartService {
 
     ShoppingCartResponseDto getCurrentWithItemsWithBookAndUser();
 
+    ShoppingCart getCurrentCartWithItemsWithBookAndUser();
+
     ShoppingCart getCurrentCart();
 }

@@ -28,10 +28,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartResponseDto getCurrentWithItemsWithBookAndUser() {
-        ShoppingCart shoppingCartFull = shoppingCartRepository
-                .findByUserEmailWithItemsWithBookAndUser(getEmail())
+        return shoppingCartMapper.toDto(getCurrentCartWithItemsWithBookAndUser());
+    }
+
+    @Override
+    public ShoppingCart getCurrentCartWithItemsWithBookAndUser() {
+        return shoppingCartRepository.findByUserEmailWithItemsWithBookAndUser(getEmail())
                 .orElseThrow(() -> new EntityNotFoundException(notFoundCartMessage(getEmail())));
-        return shoppingCartMapper.toDto(shoppingCartFull);
     }
 
     @Override
