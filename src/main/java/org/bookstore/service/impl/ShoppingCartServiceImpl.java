@@ -27,7 +27,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartResponseDto getCurrentCartWithItemsWithBookAndUser() {
+    public ShoppingCartResponseDto getCurrentWithItemsWithBookAndUser() {
         ShoppingCart shoppingCartFull = shoppingCartRepository
                 .findByUserEmailWithItemsWithBookAndUser(getEmail())
                 .orElseThrow(() -> new EntityNotFoundException(notFoundCartMessage(getEmail())));
