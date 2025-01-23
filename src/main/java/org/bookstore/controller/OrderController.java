@@ -3,7 +3,6 @@ package org.bookstore.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateOrderRequestDto;
 import org.bookstore.dto.request.UpdateOrderStatusRequestDto;
@@ -43,7 +42,7 @@ public class OrderController {
 
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Get order history",
-            description = "Endpoint for getting order history for current user")
+            description = "Endpoint for getting order history for current user. Pageable. Sortable")
     @GetMapping
     public Page<OrderResponseDto> getAll(Pageable pageable) {
         return orderService.getAll(pageable);
@@ -59,10 +58,11 @@ public class OrderController {
 
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Get order items",
-            description = "Endpoint for getting all order items for specific order")
+            description = "Endpoint for getting all order items for specific order.  "
+                    + "Pageable. Sortable")
     @GetMapping("/{id}/items")
-    public List<OrderItemResponseDto> getItemsForOrder(@PathVariable Long id) {
-        return List.of();
+    public Page<OrderItemResponseDto> getItemsForOrder(@PathVariable Long id, Pageable pageable) {
+        return orderItemService.getAllByOrderId(id, pageable);
     }
 
     @PreAuthorize("hasRole('USER')")
