@@ -6,7 +6,7 @@ import org.bookstore.dto.response.CartItemResponseDto;
 
 public interface CartItemService {
 
-    CartItemResponseDto create(CreateCartItemRequestDto requestDto);
+    CartItemResponseDto save(CreateCartItemRequestDto requestDto);
 
     CartItemResponseDto update(Long id, UpdateCartItemRequestDto requestDto);
 

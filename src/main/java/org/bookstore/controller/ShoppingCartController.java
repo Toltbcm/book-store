@@ -44,7 +44,7 @@ public class ShoppingCartController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/items")
     public CartItemResponseDto createItem(@Valid @RequestBody CreateCartItemRequestDto requestDto) {
-        return cartItemService.create(requestDto);
+        return cartItemService.save(requestDto);
     }
 
     @PreAuthorize("hasRole('USER')")

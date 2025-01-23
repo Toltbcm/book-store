@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
                 passwordEncoder));
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
-        shoppingCartService.create(shoppingCart);
+        shoppingCartService.save(shoppingCart);
         return userMapper.toDto(user);
     }
 }
