@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
 
-    OrderResponseDto createAndSave(CreateOrderRequestDto requestDto);
+    OrderResponseDto place(CreateOrderRequestDto requestDto);
 
     Page<OrderResponseDto> getAll(Pageable pageable);
 }

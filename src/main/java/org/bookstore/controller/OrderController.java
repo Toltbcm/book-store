@@ -37,7 +37,7 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public OrderResponseDto create(@Valid @RequestBody CreateOrderRequestDto requestDto) {
-        return orderService.createAndSave(requestDto);
+        return orderService.place(requestDto);
     }
 
     @PreAuthorize("hasRole('USER')")
