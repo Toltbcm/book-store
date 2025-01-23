@@ -4,7 +4,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateOrderRequestDto;
+import org.bookstore.dto.request.UpdateOrderStatusRequestDto;
 import org.bookstore.dto.response.OrderResponseDto;
+import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.exception.ShoppingCartEmptyException;
 import org.bookstore.mapper.OrderMapper;
 import org.bookstore.model.Order;
@@ -52,7 +54,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<OrderResponseDto> getAll(Pageable pageable) {
         User currentUser = userService.getCurrentUser();
-        return orderRepository.getAllByUserIdWithItems(currentUser.getId(), pageable)
+        return orderRepository.getAllByUserIdWithItemsWithBookAndUser(currentUser.getId(), pageable)
                 .map(orderMapper::toDto);
+    }
+
+    @Override
+    public OrderResponseDto updateStatus(Long id, UpdateOrderStatusRequestDto requestDto) {
+        Order order = orderRepository.findByIdWithItemsWithBookAndUser(id)
+                .orElseThrow(() -> new EntityNotFoundException("Can't find order by id: " + id));
+        order.setStatus(requestDto.status());
+        return orderMapper.toDto(orderRepository.save(order));
     }
 }

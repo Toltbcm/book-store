@@ -57,7 +57,8 @@ public class Order {
     public enum Status {
         NEW,
         PROCESSING,
-        SENDING,
-        DELIVERED
+        DELIVERY,
+        DELIVERED,
+        COMPLETED
     }
 }

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.request.CreateOrderRequestDto;
+import org.bookstore.dto.request.UpdateOrderStatusRequestDto;
 import org.bookstore.dto.response.OrderItemResponseDto;
 import org.bookstore.dto.response.OrderResponseDto;
 import org.bookstore.service.OrderItemService;
@@ -49,10 +50,11 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Change status", description = "Endpoint for changing order status")
-    @PatchMapping
-    public OrderResponseDto changeStatus(@Valid @RequestBody CreateOrderRequestDto requestDto) {
-        return null;
+    @Operation(summary = "Update status", description = "Endpoint for updating order status")
+    @PatchMapping("{id}")
+    public OrderResponseDto changeStatus(
+            @PathVariable Long id, @Valid @RequestBody UpdateOrderStatusRequestDto requestDto) {
+        return orderService.updateStatus(id, requestDto);
     }
 
     @PreAuthorize("hasRole('USER')")
