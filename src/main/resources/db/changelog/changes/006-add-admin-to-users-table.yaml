@@ -19,9 +19,9 @@ databaseChangeLog:
                   name: last_name
                   value: Adminov
         - sql:
-            sql:
-                  INSERT INTO users_roles (user_id, role_id) 
-                  VALUES(
-                    (SELECT id FROM users WHERE email='admin@books.com'),
-                    (SELECT id FROM roles WHERE name='ADMIN')
-                  );
+            sql: >
+              INSERT INTO users_roles (user_id, role_id) 
+              VALUES(
+                (SELECT id FROM users WHERE email='admin@books.com'),
+                (SELECT id FROM roles WHERE name='ADMIN')
+              );
