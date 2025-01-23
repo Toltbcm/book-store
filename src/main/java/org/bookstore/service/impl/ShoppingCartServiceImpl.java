@@ -22,12 +22,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart create(ShoppingCart shoppingCart) {
+    public ShoppingCart save(ShoppingCart shoppingCart) {
         return shoppingCartRepository.save(shoppingCart);
     }
 
     @Override
-    public ShoppingCartResponseDto getCurrent() {
+    public ShoppingCartResponseDto getCurrentCartWithItemsWithBookAndUser() {
         ShoppingCart shoppingCartFull = shoppingCartRepository
                 .findByUserEmailWithItemsWithBookAndUser(getEmail())
                 .orElseThrow(() -> new EntityNotFoundException(notFoundCartMessage(getEmail())));

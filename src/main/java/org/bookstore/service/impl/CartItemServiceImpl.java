@@ -28,7 +28,7 @@ public class CartItemServiceImpl implements CartItemService {
     private final BookService bookService;
 
     @Override
-    public CartItemResponseDto create(CreateCartItemRequestDto requestDto) {
+    public CartItemResponseDto save(CreateCartItemRequestDto requestDto) {
         Book book = bookService.getBookById(requestDto.bookId());
         ShoppingCart shoppingCart = shoppingCartService.getCurrentCart();
         return cartItemMapper.toDto(cartItemRepository.save(

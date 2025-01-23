@@ -5,9 +5,9 @@ import org.bookstore.model.ShoppingCart;
 
 public interface ShoppingCartService {
 
-    ShoppingCart create(ShoppingCart shoppingCart);
+    ShoppingCart save(ShoppingCart shoppingCart);
 
-    ShoppingCartResponseDto getCurrent();
+    ShoppingCartResponseDto getCurrentCartWithItemsWithBookAndUser();
 
     ShoppingCart getCurrentCart();
 }
