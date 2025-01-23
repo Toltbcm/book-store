@@ -24,8 +24,8 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder bookSpecificationBuilder;
 
-    private static String notFoundBookMessage(Long id) {
-        return String.format("Can't find book with id: %d", id);
+    private static EntityNotFoundException newEntityNotFoundForBook(Long id) {
+        return new EntityNotFoundException("Can't find book with id: " + id);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void delete(Long id) {
         if (!bookRepository.existsById(id)) {
-            throw new EntityNotFoundException(notFoundBookMessage(id));
+            throw newEntityNotFoundForBook(id);
         }
         bookRepository.deleteById(id);
     }
@@ -73,11 +73,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getBookById(Long id) {
         return bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(notFoundBookMessage(id)));
+                .orElseThrow(() -> newEntityNotFoundForBook(id));
     }
 
     private Book getBookWithCategoryById(Long id) {
         return bookRepository.findByIdWithCategory(id)
-                .orElseThrow(() -> new EntityNotFoundException(notFoundBookMessage(id)));
+                .orElseThrow(() -> newEntityNotFoundForBook(id));
     }
 }
