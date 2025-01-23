@@ -17,8 +17,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ShoppingCartMapper shoppingCartMapper;
 
-    private static String notFoundCartMessage(String name) {
-        return String.format("Can't find cart for user: %s", name);
+    private static EntityNotFoundException newEntityNotFoundForCart(String name) {
+        return new EntityNotFoundException("Can't find cart for user: " + name);
     }
 
     @Override
@@ -30,14 +30,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartResponseDto getCurrentWithItemsWithBookAndUser() {
         ShoppingCart shoppingCartFull = shoppingCartRepository
                 .findByUserEmailWithItemsWithBookAndUser(getEmail())
-                .orElseThrow(() -> new EntityNotFoundException(notFoundCartMessage(getEmail())));
+                .orElseThrow(() -> newEntityNotFoundForCart(getEmail()));
         return shoppingCartMapper.toDto(shoppingCartFull);
     }
 
     @Override
     public ShoppingCart getCurrentCart() {
         return shoppingCartRepository.findByUserEmail(getEmail())
-                .orElseThrow(() -> new EntityNotFoundException(notFoundCartMessage(getEmail())));
+                .orElseThrow(() -> newEntityNotFoundForCart(getEmail()));
     }
 
     private String getEmail() {
