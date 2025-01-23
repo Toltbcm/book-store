@@ -43,14 +43,14 @@ public class ShoppingCartController {
     @Operation(summary = "Create cart item", description = "Endpoint for add book(s) to cart")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/items")
-    public CartItemResponseDto create(@Valid @RequestBody CreateCartItemRequestDto requestDto) {
+    public CartItemResponseDto createItem(@Valid @RequestBody CreateCartItemRequestDto requestDto) {
         return cartItemService.create(requestDto);
     }
 
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Update cart item", description = "Endpoint for updating books quantity")
     @PutMapping("/items/{id}")
-    public CartItemResponseDto update(
+    public CartItemResponseDto updateItem(
             @PathVariable Long id, @Valid @RequestBody UpdateCartItemRequestDto requestDto) {
         return cartItemService.update(id, requestDto);
     }
@@ -60,7 +60,7 @@ public class ShoppingCartController {
             description = "Endpoint for deleting book(s) from cart")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/items/{id}")
-    public void delete(@PathVariable Long id) {
+    public void deleteItem(@PathVariable Long id) {
         cartItemService.delete(id);
     }
 }
