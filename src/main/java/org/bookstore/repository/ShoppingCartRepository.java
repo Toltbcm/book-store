@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
 
-    @Query("FROM ShoppingCart c JOIN FETCH c.cartItems i JOIN FETCH i.book "
+    @Query("SELECT DISTINCT c FROM ShoppingCart c LEFT JOIN FETCH c.cartItems i JOIN FETCH i.book "
             + "JOIN FETCH c.user u WHERE u.email = :email")
     Optional<ShoppingCart> findByUserEmailWithItemsWithBookAndUser(@Param("email") String email);
 
