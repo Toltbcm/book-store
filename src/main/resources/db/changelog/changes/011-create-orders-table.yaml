@@ -25,7 +25,6 @@ databaseChangeLog:
                   name: status
                   type: varchar(20)
                   constraints:
-                    unique: true
                     nullable: false
               - column:
                   name: total
