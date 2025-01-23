@@ -44,6 +44,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     private String getEmail() {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }
