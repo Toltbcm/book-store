@@ -2,6 +2,7 @@ package org.bookstore.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.bookstore.dto.response.OrderItemResponseDto;
+import org.bookstore.exception.EntityNotFoundException;
 import org.bookstore.mapper.OrderItemMapper;
 import org.bookstore.model.CartItem;
 import org.bookstore.model.Order;
@@ -26,8 +27,15 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public Page<OrderItemResponseDto> getAllByOrderId(Long orderId, Pageable pageable) {
-
         return orderItemRepository.getAllByOrderIdWithBook(orderId, pageable)
                 .map(orderItemMapper::toDto);
+    }
+
+    @Override
+    public OrderItemResponseDto getByIdAndOrderId(Long orderId, Long itemId) {
+        OrderItem orderItem = orderItemRepository.findByIdAndOrderIdWithBook(orderId, itemId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can't find item with id: " + itemId + " for order with id: " + orderId));
+        return orderItemMapper.toDto(orderItem);
     }
 }

@@ -71,6 +71,6 @@ public class OrderController {
     @GetMapping("/{orderId}/items/{itemId}")
     public OrderItemResponseDto getItemsForOrder(
             @PathVariable Long orderId, @PathVariable Long itemId) {
-        return null;
+        return orderItemService.getByIdAndOrderId(orderId, itemId);
     }
 }

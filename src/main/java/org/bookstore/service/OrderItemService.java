@@ -12,4 +12,6 @@ public interface OrderItemService {
     OrderItem createAndSave(CartItem cartItem, Order order);
 
     Page<OrderItemResponseDto> getAllByOrderId(Long orderId, Pageable pageable);
+
+    OrderItemResponseDto getByIdAndOrderId(Long orderId, Long itemId);
 }
