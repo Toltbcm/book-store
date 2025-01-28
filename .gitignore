@@ -35,4 +35,3 @@ build/
 
 ### My dev ###
 .env
-docker-compose.yaml
