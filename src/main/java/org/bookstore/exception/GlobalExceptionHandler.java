@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
@@ -47,10 +48,22 @@ public class GlobalExceptionHandler {
         return makeResponse(ex, HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccessDeniedException(
+            AccessDeniedException ex) {
+        return makeResponse(ex, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Map<String, Object>> handleBadCredentialsException(
             BadCredentialsException ex) {
         return makeResponse(ex, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ShoppingCartEmptyException.class)
+    public ResponseEntity<Map<String, Object>> handleShoppingCartEmptyException(
+            ShoppingCartEmptyException ex) {
+        return makeResponse(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: add-admin-to-user-table
+      id: add-admin-to-users-table
       author: Anatolii Olkhovskyi
       changes:
         - insert:
@@ -18,12 +18,10 @@ databaseChangeLog:
               - column:
                   name: last_name
                   value: Adminov
-        - insert:
-            tableName: users_roles
-            columns:
-              - column:
-                  name: user_id
-                  value: 1
-              - column:
-                  name: role_id
-                  value: 1
+        - sql:
+            sql: >
+              INSERT INTO users_roles (user_id, role_id) 
+              VALUES(
+                (SELECT id FROM users WHERE email='admin@books.com'),
+                (SELECT id FROM roles WHERE name='ADMIN')
+              );
