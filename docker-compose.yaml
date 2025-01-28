@@ -34,7 +34,10 @@ services:
         "spring.datasource.url"  : "jdbc:postgresql://postgres-db:${DB_POSTGRES_DOCKER_PORT}/${DB_POSTGRES_NAME}",
         "spring.datasource.username" : "${DB_POSTGRES_USERNAME}",
         "spring.datasource.password" : "${DB_POSTGRES_PASSWORD}",
-        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect"
+        "spring.datasource.driver-class-name" : "${DB_POSTGRES_DRIVER}",
+        "spring.jpa.hibernate.ddl-auto" : "validate",
+        "spring.jpa.open-in-view" : false,
+        "spring.jpa.show-sql" : true
       }'
       JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${APP_DEBUG_PORT}"
 
