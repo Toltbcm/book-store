@@ -11,6 +11,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -56,8 +57,8 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should save category and return CategoryResponseDto")
         void createCategoryRequestDto_SavesCategoryAndReturnsCategoryRequestDto() {
-            String namePart = "1";
             Long id = 1L;
+            String namePart = "1";
             CreateCategoryRequestDto createCategoryRequestDto =
                     makeCategoryCreateRequestDto(namePart);
             Category categoryWithoutId = makeCategoryWithoutId(namePart);
@@ -82,8 +83,8 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should find and return CategoryResponseDto by category id=1")
         void categoryIdIs1_ReturnsCategoryResponseDto() {
-            String namePart = "1";
             Long id = 1L;
+            String namePart = "1";
             Category categoryWithId = makeCategoryWithId(id, namePart);
             CategoryResponseDto categoryResponseDto = makeCategoryResponseDto(id, namePart);
 
@@ -139,6 +140,7 @@ class CategoryServiceTests {
 
             assertEquals(expected, categoryService.getAll(pageable));
             verify(categoryRepository).findAll(pageable);
+            verify(categoryMapper, times(3)).toDto(any());
         }
     }
 
@@ -149,9 +151,9 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should update category with id=1 and return CategoryResponseDto")
         void categoryIdIs1_UpdatesCategoryAndReturnsCategoryRequestDto() {
+            Long id = 1L;
             String namePart = "1";
             String updatedNamePart = "1 updated";
-            Long id = 1L;
             Category category = makeCategoryWithId(id, namePart);
             Category categoryUpdated = makeCategoryWithId(id, updatedNamePart);
             UpdateCategoryRequestDto updateCategoryRequestDto =
@@ -174,8 +176,8 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent category")
         void categoryIdIs77_ThrowsEntityNotFoundException() {
-            String namePart = "1";
             Long nonExistentCategoryId = 77L;
+            String namePart = "1";
             UpdateCategoryRequestDto updateCategoryRequestDto =
                     makeCategoryUpdateRequestDto(namePart);
 
@@ -186,7 +188,6 @@ class CategoryServiceTests {
                     () -> categoryService.update(nonExistentCategoryId, updateCategoryRequestDto));
             verify(categoryService).getCategoryById(nonExistentCategoryId);
             verify(categoryRepository, never()).save(any());
-
         }
     }
 
@@ -228,8 +229,8 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should find and return category by id=1")
         void categoryIdIs1_ReturnsCategory() {
-            String namePart = "1";
             Long id = 1L;
+            String namePart = "1";
             Category category = makeCategoryWithId(id, namePart);
 
             when(categoryRepository.findById(id)).thenReturn(Optional.of(category));
