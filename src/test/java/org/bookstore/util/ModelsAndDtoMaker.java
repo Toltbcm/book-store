@@ -8,6 +8,7 @@ import org.bookstore.dto.request.CreateCategoryRequestDto;
 import org.bookstore.dto.request.UpdateBookRequestDto;
 import org.bookstore.dto.request.UpdateCategoryRequestDto;
 import org.bookstore.dto.response.BookResponseDto;
+import org.bookstore.dto.response.BookWithoutCategoriesResponseDto;
 import org.bookstore.dto.response.CategoryResponseDto;
 import org.bookstore.model.Book;
 import org.bookstore.model.Category;
@@ -94,5 +95,18 @@ public class ModelsAndDtoMaker {
                 "Book description " + namePart,
                 "https://cover_image_" + namePart + ".jpg",
                 categoryIds);
+    }
+
+    public static BookWithoutCategoriesResponseDto makeBookWithoutCategoriesResponseDto(
+            Long id, String namePart, BigDecimal price) {
+        return new BookWithoutCategoriesResponseDto(
+                id,
+                "Book title " + namePart,
+                "Author " + namePart,
+                (namePart + "000-000-000-00000").substring(0, 17),
+                price,
+                "Book description " + namePart,
+                "https://cover_image_" + namePart + ".jpg"
+        );
     }
 }
