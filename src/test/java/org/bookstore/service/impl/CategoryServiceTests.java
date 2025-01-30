@@ -33,6 +33,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
@@ -76,14 +77,14 @@ class CategoryServiceTests {
 
     @Nested
     @DisplayName("Tests for `getById`:")
-    class GetById {
+    class GetByIdTests {
 
         @Test
         @DisplayName("should find and return CategoryResponseDto by category id=1")
         void categoryIdIs1_ReturnsCategoryResponseDto() {
             String namePart = "1";
             Long id = 1L;
-            Category categoryWithId = makeCategoryWithoutId(namePart);
+            Category categoryWithId = makeCategoryWithId(id, namePart);
             CategoryResponseDto categoryResponseDto = makeCategoryResponseDto(id, namePart);
 
             doReturn(categoryWithId).when(categoryService).getCategoryById(id);
@@ -105,6 +106,7 @@ class CategoryServiceTests {
             assertThrows(EntityNotFoundException.class,
                     () -> categoryService.getById(nonExistentCategoryId));
             verify(categoryService).getCategoryById(nonExistentCategoryId);
+            verify(categoryMapper, never()).toDto(any());
         }
     }
 
@@ -114,31 +116,29 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should return page with three CategoryResponseDtos")
-        void returnsPageWithThreeCategoryResponseDtos() {
+        void pageableOfPage0AndSize20_returnsPageWithThreeCategoryResponseDtos() {
             Category category1 = makeCategoryWithId(1L, "1");
             Category category2 = makeCategoryWithId(2L, "2");
             Category category3 = makeCategoryWithId(3L, "3");
             CategoryResponseDto categoryResponseDto1 = makeCategoryResponseDto(1L, "1");
             CategoryResponseDto categoryResponseDto2 = makeCategoryResponseDto(2L, "2");
             CategoryResponseDto categoryResponseDto3 = makeCategoryResponseDto(3L, "3");
+            Pageable pageable = PageRequest.of(0, 20);
 
             Page<Category> categories = new PageImpl<>(
-                    List.of(category1, category2, category3),
-                    Pageable.unpaged(),
-                    3);
+                    List.of(category1, category2, category3), pageable, 3);
 
-            when(categoryRepository.findAll(Pageable.unpaged())).thenReturn(categories);
+            when(categoryRepository.findAll(pageable)).thenReturn(categories);
             when(categoryMapper.toDto(category1)).thenReturn(categoryResponseDto1);
             when(categoryMapper.toDto(category2)).thenReturn(categoryResponseDto2);
             when(categoryMapper.toDto(category3)).thenReturn(categoryResponseDto3);
 
             Page<CategoryResponseDto> expected = new PageImpl<>(
                     List.of(categoryResponseDto1, categoryResponseDto2, categoryResponseDto3),
-                    Pageable.unpaged(),
-                    3);
+                    pageable, 3);
 
-            assertEquals(expected, categoryService.getAll(Pageable.unpaged()));
-            verify(categoryRepository).findAll(Pageable.unpaged());
+            assertEquals(expected, categoryService.getAll(pageable));
+            verify(categoryRepository).findAll(pageable);
         }
     }
 
