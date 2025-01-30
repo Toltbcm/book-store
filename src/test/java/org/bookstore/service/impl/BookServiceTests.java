@@ -95,7 +95,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should find and return BookResponseDto by book id=1")
-        void bookIdIs1_ReturnsBookResponseDto() {
+        void bookIdIsCorrect_ReturnsBookResponseDto() {
             Long id = 1L;
             String namePart = "1";
             BigDecimal price = BigDecimal.valueOf(11.11);
@@ -117,7 +117,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent book")
-        void bookIdIs77_ThrowsEntityNotFoundException() {
+        void bookIdIsWrong_ThrowsEntityNotFoundException() {
             Long nonExistentBookId = 77L;
 
             when(bookRepository.findByIdWithCategory(nonExistentBookId))
@@ -136,7 +136,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should return page with three BookResponseDtos")
-        void pageableOfPage0AndSize20_returnsPageWithThreeBooksResponseDtos() {
+        void pageable_returnsPageWithThreeBooksResponseDtos() {
             Book book1 = makeBookWithId(1L, "1", BigDecimal.valueOf(11.11), Set.of());
             Book book2 = makeBookWithId(2L, "2", BigDecimal.valueOf(22.22), Set.of());
             Book book3 = makeBookWithId(3L, "3", BigDecimal.valueOf(33.33), Set.of());
@@ -179,7 +179,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should update book with id=1 and return BookResponseDto")
-        void bookIdIs1_UpdatesBookAndReturnsBookRequestDto() {
+        void bookIdIsCorrect_UpdatesBookAndReturnsBookRequestDto() {
             Long id = 1L;
             String namePart = "1";
             BigDecimal price = BigDecimal.valueOf(11.11);
@@ -209,7 +209,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent book")
-        void bookIdIs77_ThrowsEntityNotFoundException() {
+        void bookIdIsWrong_ThrowsEntityNotFoundException() {
             Long nonExistentBookId = 77L;
             String namePart = "1";
             BigDecimal price = BigDecimal.valueOf(11.11);
@@ -234,7 +234,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should delete book by id=1")
-        void bookIdIs1_RemovesBook() {
+        void bookIdIsCorrect_RemovesBook() {
             Long id = 1L;
 
             when(bookRepository.existsById(id)).thenReturn(true);
@@ -247,7 +247,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent book")
-        void bookIdIs77_ThrowsEntityNotFoundException() {
+        void bookIdIsWrong_ThrowsEntityNotFoundException() {
             Long nonExistentBookId = 77L;
 
             when(bookRepository.existsById(nonExistentBookId)).thenReturn(false);
@@ -265,7 +265,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should return page with two BookResponseDtos")
-        void pageableOfPage0AndSize20_returnsPageWithThreeBooksResponseDtos() {
+        void pageable_returnsPageWithThreeBooksResponseDtos() {
             Long categoryId = 2L;
             Book book1 = makeBookWithId(1L, "1", BigDecimal.valueOf(11.11),
                     Set.of(
@@ -307,7 +307,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should find and return book by id=1")
-        void bookIdIs1_ReturnsBook() {
+        void bookIdIsCorrect_ReturnsBook() {
             Long id = 1L;
             String namePart = "1";
             Book book = makeBookWithId(id, namePart, BigDecimal.valueOf(11.11), Set.of());
@@ -320,7 +320,7 @@ class BookServiceTests {
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent book")
-        void bookIdIs77_ThrowsEntityNotFoundException() {
+        void bookIdIsWrong_ThrowsEntityNotFoundException() {
             Long nonExistentBookId = 77L;
 
             when(bookRepository.findById(nonExistentBookId))

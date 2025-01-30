@@ -82,7 +82,7 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should find and return CategoryResponseDto by category id=1")
-        void categoryIdIs1_ReturnsCategoryResponseDto() {
+        void categoryIdIsCorrect_ReturnsCategoryResponseDto() {
             Long id = 1L;
             String namePart = "1";
             Category categoryWithId = makeCategoryWithId(id, namePart);
@@ -98,7 +98,7 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent category")
-        void categoryIdIs77_ThrowsEntityNotFoundException() {
+        void categoryIdIsWrong_ThrowsEntityNotFoundException() {
             Long nonExistentCategoryId = 77L;
 
             doThrow(EntityNotFoundException.class).when(categoryService)
@@ -117,7 +117,7 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should return page with three CategoryResponseDtos")
-        void pageableOfPage0AndSize20_returnsPageWithThreeCategoryResponseDtos() {
+        void pageable_returnsPageWithThreeCategoryResponseDtos() {
             Category category1 = makeCategoryWithId(1L, "1");
             Category category2 = makeCategoryWithId(2L, "2");
             Category category3 = makeCategoryWithId(3L, "3");
@@ -150,7 +150,7 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should update category with id=1 and return CategoryResponseDto")
-        void categoryIdIs1_UpdatesCategoryAndReturnsCategoryRequestDto() {
+        void categoryIdIsCorrect_UpdatesCategoryAndReturnsCategoryRequestDto() {
             Long id = 1L;
             String namePart = "1";
             String updatedNamePart = "1 updated";
@@ -175,7 +175,7 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent category")
-        void categoryIdIs77_ThrowsEntityNotFoundException() {
+        void categoryIdIsWrong_ThrowsEntityNotFoundException() {
             Long nonExistentCategoryId = 77L;
             String namePart = "1";
             UpdateCategoryRequestDto updateCategoryRequestDto =
@@ -197,7 +197,7 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should delete category by id=1")
-        void categoryIdIs1_RemovesCategory() {
+        void categoryIdIsCorrect_RemovesCategory() {
             Long id = 1L;
 
             when(categoryRepository.existsById(id)).thenReturn(true);
@@ -210,7 +210,7 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent category")
-        void categoryIdIs77_ThrowsEntityNotFoundException() {
+        void categoryIdIsWrong_ThrowsEntityNotFoundException() {
             Long nonExistentCategoryId = 77L;
 
             when(categoryRepository.existsById(nonExistentCategoryId)).thenReturn(false);
@@ -228,7 +228,7 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should find and return category by id=1")
-        void categoryIdIs1_ReturnsCategory() {
+        void categoryIdIsCorrect_ReturnsCategory() {
             Long id = 1L;
             String namePart = "1";
             Category category = makeCategoryWithId(id, namePart);
@@ -241,7 +241,7 @@ class CategoryServiceTests {
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent category")
-        void categoryIdIs77_ThrowsEntityNotFoundException() {
+        void categoryIdIsWrong_ThrowsEntityNotFoundException() {
             Long nonExistentCategoryId = 77L;
 
             when(categoryRepository.findById(nonExistentCategoryId))

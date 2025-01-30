@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,7 +40,7 @@ class BookRepositoryTests {
 
         @Test
         @DisplayName("should return page with three books by category with id=3")
-        void categoryIdIs3_Returns3Books() {
+        void categoryIdIsCorrect_ReturnsThreeBooks() {
             Long categoryId = 3L;
             Page<Book> books = bookRepository.getAllByCategoryId(categoryId, Pageable.unpaged());
 
@@ -48,7 +49,7 @@ class BookRepositoryTests {
 
         @Test
         @DisplayName("should return empty page for non-existent category id")
-        void categoryIdIs77_ReturnsEmptyPage() {
+        void categoryIdIsWrong_ReturnsEmptyPage() {
             Long nonExistentCategoryId = 77L;
             Page<Book> books = bookRepository.getAllByCategoryId(
                     nonExistentCategoryId, Pageable.unpaged());
@@ -60,7 +61,8 @@ class BookRepositoryTests {
         @DisplayName("should throw LazyInitializationException if try getting categories ")
         void gettingCategories_ThrowsLazyInitializationException() {
             Long categoryId = 2L;
-            Page<Book> books = bookRepository.getAllByCategoryId(categoryId, Pageable.unpaged());
+            Page<Book> books = bookRepository.getAllByCategoryId(
+                    categoryId, PageRequest.of(0, 20));
             Set<Category> categories = books.getContent().getFirst().getCategories();
 
             assertThrows(LazyInitializationException.class, categories::size);
@@ -77,7 +79,7 @@ class BookRepositoryTests {
 
         @Test
         @DisplayName("should return Optional with book with four categories by id=3")
-        void bookIdIs3_ReturnsOptionalWithBookWith4Categories() {
+        void bookIdIsCorrect_ReturnsOptionalWithBookWithFourCategories() {
             Long categoryId = 3L;
             Book book = bookRepository.findByIdWithCategory(categoryId).get();
 
@@ -88,7 +90,7 @@ class BookRepositoryTests {
 
         @Test
         @DisplayName("should return empty Optional for non-existent book id")
-        void bookIdIs77_ReturnsEmptyOptional() {
+        void bookIdIsWrong_ReturnsEmptyOptional() {
             Long nonExistentCategoryId = 77L;
             Optional<Book> optional = bookRepository.findByIdWithCategory(nonExistentCategoryId);
 
