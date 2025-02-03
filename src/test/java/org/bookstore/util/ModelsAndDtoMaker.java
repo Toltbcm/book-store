@@ -28,11 +28,11 @@ public class ModelsAndDtoMaker {
         return category;
     }
 
-    public static CreateCategoryRequestDto makeCategoryCreateRequestDto(String namePart) {
+    public static CreateCategoryRequestDto makeCreateCategoryRequestDto(String namePart) {
         return new CreateCategoryRequestDto("Cat " + namePart, "Description " + namePart);
     }
 
-    public static UpdateCategoryRequestDto makeCategoryUpdateRequestDto(String namePart) {
+    public static UpdateCategoryRequestDto makeUpdateCategoryRequestDto(String namePart) {
         return new UpdateCategoryRequestDto("Cat " + namePart, "Description " + namePart);
     }
 

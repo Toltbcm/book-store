@@ -1,10 +1,12 @@
 package org.bookstore.service.impl;
 
-import static org.bookstore.util.ModelsAndDtoMaker.makeCategoryCreateRequestDto;
+import static org.bookstore.util.Constant.CORRECT_ID;
+import static org.bookstore.util.Constant.WRONG_ID;
 import static org.bookstore.util.ModelsAndDtoMaker.makeCategoryResponseDto;
-import static org.bookstore.util.ModelsAndDtoMaker.makeCategoryUpdateRequestDto;
 import static org.bookstore.util.ModelsAndDtoMaker.makeCategoryWithId;
 import static org.bookstore.util.ModelsAndDtoMaker.makeCategoryWithoutId;
+import static org.bookstore.util.ModelsAndDtoMaker.makeCreateCategoryRequestDto;
+import static org.bookstore.util.ModelsAndDtoMaker.makeUpdateCategoryRequestDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,13 +59,12 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should save category and return CategoryResponseDto")
         void createCategoryRequestDto_SavesCategoryAndReturnsCategoryRequestDto() {
-            Long id = 1L;
             String namePart = "1";
             CreateCategoryRequestDto createCategoryRequestDto =
-                    makeCategoryCreateRequestDto(namePart);
+                    makeCreateCategoryRequestDto(namePart);
             Category categoryWithoutId = makeCategoryWithoutId(namePart);
-            Category categoryWithId = makeCategoryWithId(id, namePart);
-            CategoryResponseDto categoryResponseDto = makeCategoryResponseDto(id, namePart);
+            Category categoryWithId = makeCategoryWithId(CORRECT_ID, namePart);
+            CategoryResponseDto categoryResponseDto = makeCategoryResponseDto(CORRECT_ID, namePart);
 
             when(categoryMapper.toModel(createCategoryRequestDto)).thenReturn(categoryWithoutId);
             when(categoryRepository.save(categoryWithoutId)).thenReturn(categoryWithId);
@@ -83,30 +84,27 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should find and return CategoryResponseDto by category id=1")
         void categoryIdIsCorrect_ReturnsCategoryResponseDto() {
-            Long id = 1L;
             String namePart = "1";
-            Category categoryWithId = makeCategoryWithId(id, namePart);
-            CategoryResponseDto categoryResponseDto = makeCategoryResponseDto(id, namePart);
+            Category categoryWithId = makeCategoryWithId(CORRECT_ID, namePart);
+            CategoryResponseDto categoryResponseDto = makeCategoryResponseDto(CORRECT_ID, namePart);
 
-            doReturn(categoryWithId).when(categoryService).getCategoryById(id);
+            doReturn(categoryWithId).when(categoryService).getCategoryById(CORRECT_ID);
             when(categoryMapper.toDto(categoryWithId)).thenReturn(categoryResponseDto);
 
-            assertEquals(categoryResponseDto, categoryService.getById(id));
-            verify(categoryService).getCategoryById(id);
+            assertEquals(categoryResponseDto, categoryService.getById(CORRECT_ID));
+            verify(categoryService).getCategoryById(CORRECT_ID);
             verify(categoryMapper).toDto(categoryWithId);
         }
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent category")
         void categoryIdIsWrong_ThrowsEntityNotFoundException() {
-            Long nonExistentCategoryId = 77L;
-
             doThrow(EntityNotFoundException.class).when(categoryService)
-                    .getCategoryById(nonExistentCategoryId);
+                    .getCategoryById(WRONG_ID);
 
             assertThrows(EntityNotFoundException.class,
-                    () -> categoryService.getById(nonExistentCategoryId));
-            verify(categoryService).getCategoryById(nonExistentCategoryId);
+                    () -> categoryService.getById(WRONG_ID));
+            verify(categoryService).getCategoryById(WRONG_ID);
             verify(categoryMapper, never()).toDto(any());
         }
     }
@@ -151,23 +149,22 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should update category with id=1 and return CategoryResponseDto")
         void categoryIdIsCorrect_UpdatesCategoryAndReturnsCategoryRequestDto() {
-            Long id = 1L;
             String namePart = "1";
             String updatedNamePart = "1 updated";
-            Category category = makeCategoryWithId(id, namePart);
-            Category categoryUpdated = makeCategoryWithId(id, updatedNamePart);
+            Category category = makeCategoryWithId(CORRECT_ID, namePart);
+            Category categoryUpdated = makeCategoryWithId(CORRECT_ID, updatedNamePart);
             UpdateCategoryRequestDto updateCategoryRequestDto =
-                    makeCategoryUpdateRequestDto(updatedNamePart);
-            CategoryResponseDto categoryResponseDto = makeCategoryResponseDto(id, updatedNamePart);
+                    makeUpdateCategoryRequestDto(updatedNamePart);
+            CategoryResponseDto categoryResponseDto = makeCategoryResponseDto(CORRECT_ID, updatedNamePart);
 
-            doReturn(category).when(categoryService).getCategoryById(id);
+            doReturn(category).when(categoryService).getCategoryById(CORRECT_ID);
             when(categoryMapper.updateModel(category, updateCategoryRequestDto))
                     .thenReturn(categoryUpdated);
             when(categoryRepository.save(categoryUpdated)).thenReturn(categoryUpdated);
             when(categoryMapper.toDto(categoryUpdated)).thenReturn(categoryResponseDto);
 
-            assertEquals(categoryResponseDto, categoryService.update(id, updateCategoryRequestDto));
-            verify(categoryService).getCategoryById(id);
+            assertEquals(categoryResponseDto, categoryService.update(CORRECT_ID, updateCategoryRequestDto));
+            verify(categoryService).getCategoryById(CORRECT_ID);
             verify(categoryMapper).updateModel(category, updateCategoryRequestDto);
             verify(categoryRepository).save(categoryUpdated);
             verify(categoryMapper).toDto(categoryUpdated);
@@ -179,7 +176,7 @@ class CategoryServiceTests {
             Long nonExistentCategoryId = 77L;
             String namePart = "1";
             UpdateCategoryRequestDto updateCategoryRequestDto =
-                    makeCategoryUpdateRequestDto(namePart);
+                    makeUpdateCategoryRequestDto(namePart);
 
             doThrow(EntityNotFoundException.class).when(categoryService)
                     .getCategoryById(nonExistentCategoryId);

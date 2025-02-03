@@ -20,10 +20,11 @@ VALUES (1, 'Book title 1', 'Author 1', '000-0-00-000000-1', 11.11, 'Book descrip
 INSERT INTO books_categories(book_id, category_id)
 VALUES (1, 1),
        (1, 2),
+       (1, 4),
+       (1, 5),
        (2, 3),
        (3, 1),
        (3, 3),
-       (3, 4),
        (3, 5),
        (4, 2),
        (4, 5),
