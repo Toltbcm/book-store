@@ -12,4 +12,14 @@ public class Constant {
     public static final long WRONG_ID = 77L;
     public static final String NAME_PART = "1";
     public static final String UPDATED_NAME_PART = "updated";
+
+    public static class SqlPath {
+        public static final String ADD_5_BOOKS_PATH = "classpath:database/books/add-5-books.sql";
+        public static final String CLEAR_BOOKS_PATH = "classpath:database/books/clear.sql";
+        public static final String ADD_5_CATEGORIES_PATH = "classpath:database/categories/add-5-categories.sql";
+        public static final String CLEAR_CATEGORIES_PATH = "classpath:database/categories/clear.sql";
+        public static final String ADD_ADMIN_PATH = "classpath:database/user/add-admin.sql";
+        public static final String ADD_USER_PATH = "classpath:database/user/add-user.sql";
+        public static final String CLEAR_USERS_PATH = "classpath:database/user/clear.sql";
+    }
 }

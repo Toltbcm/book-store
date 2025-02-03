@@ -1,5 +1,9 @@
 package org.bookstore.repository;
 
+import static org.bookstore.util.Constant.CORRECT_ID;
+import static org.bookstore.util.Constant.SqlPath.ADD_5_BOOKS_PATH;
+import static org.bookstore.util.Constant.SqlPath.CLEAR_BOOKS_PATH;
+import static org.bookstore.util.Constant.WRONG_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,27 +36,23 @@ class BookRepositoryTests {
 
     @Nested
     @DisplayName("Tests for `getAllByCategoryId`:")
-    @Sql(scripts = "classpath:database/books/add-5-books.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
-    @Sql(scripts = "classpath:database/books/clear.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
+    @Sql(scripts = ADD_5_BOOKS_PATH, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+    @Sql(scripts = CLEAR_BOOKS_PATH, executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
     class GetAllByCategoryTests {
 
         @Test
-        @DisplayName("should return page with three books by category with id=3")
-        void categoryIdIsCorrect_ReturnsThreeBooks() {
-            Long categoryId = 3L;
-            Page<Book> books = bookRepository.getAllByCategoryId(categoryId, Pageable.unpaged());
+        @DisplayName("should return page with two books by category with id=1")
+        void categoryIdIsCorrect_ReturnsTwoBooks() {
+            Page<Book> books = bookRepository.getAllByCategoryId(CORRECT_ID, Pageable.unpaged());
 
-            assertEquals(3, books.getSize());
+            assertEquals(2, books.getSize());
         }
 
         @Test
         @DisplayName("should return empty page for non-existent category id")
         void categoryIdIsWrong_ReturnsEmptyPage() {
-            Long nonExistentCategoryId = 77L;
             Page<Book> books = bookRepository.getAllByCategoryId(
-                    nonExistentCategoryId, Pageable.unpaged());
+                    WRONG_ID, Pageable.unpaged());
 
             assertTrue(books.isEmpty());
         }
@@ -60,9 +60,8 @@ class BookRepositoryTests {
         @Test
         @DisplayName("should throw LazyInitializationException if try getting categories ")
         void gettingCategories_ThrowsLazyInitializationException() {
-            Long categoryId = 2L;
             Page<Book> books = bookRepository.getAllByCategoryId(
-                    categoryId, PageRequest.of(0, 20));
+                    CORRECT_ID, PageRequest.of(0, 20));
             Set<Category> categories = books.getContent().getFirst().getCategories();
 
             assertThrows(LazyInitializationException.class, categories::size);
@@ -71,28 +70,24 @@ class BookRepositoryTests {
 
     @Nested
     @DisplayName("Tests for `findByIdWithCategory`:")
-    @Sql(scripts = "classpath:database/books/add-5-books.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
-    @Sql(scripts = "classpath:database/books/clear.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
+    @Sql(scripts = ADD_5_BOOKS_PATH, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+    @Sql(scripts = CLEAR_BOOKS_PATH, executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
     class FindByIdWithCategoryTests {
 
         @Test
-        @DisplayName("should return Optional with book with four categories by id=3")
+        @DisplayName("should return Optional with book with four categories by id=1")
         void bookIdIsCorrect_ReturnsOptionalWithBookWithFourCategories() {
-            Long categoryId = 3L;
-            Book book = bookRepository.findByIdWithCategory(categoryId).get();
+            Book book = bookRepository.findByIdWithCategory(CORRECT_ID).get();
 
-            assertEquals(categoryId, book.getId());
-            assertEquals("000-0-00-000000-3", book.getIsbn());
+            assertEquals(CORRECT_ID, book.getId());
+            assertEquals("000-0-00-000000-1", book.getIsbn());
             assertEquals(4, book.getCategories().size());
         }
 
         @Test
         @DisplayName("should return empty Optional for non-existent book id")
         void bookIdIsWrong_ReturnsEmptyOptional() {
-            Long nonExistentCategoryId = 77L;
-            Optional<Book> optional = bookRepository.findByIdWithCategory(nonExistentCategoryId);
+            Optional<Book> optional = bookRepository.findByIdWithCategory(WRONG_ID);
 
             assertTrue(optional.isEmpty());
         }

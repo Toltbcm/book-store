@@ -1,6 +1,8 @@
 package org.bookstore.service.impl;
 
 import static org.bookstore.util.Constant.CORRECT_ID;
+import static org.bookstore.util.Constant.NAME_PART;
+import static org.bookstore.util.Constant.UPDATED_NAME_PART;
 import static org.bookstore.util.Constant.WRONG_ID;
 import static org.bookstore.util.ModelsAndDtoMaker.makeCategoryResponseDto;
 import static org.bookstore.util.ModelsAndDtoMaker.makeCategoryWithId;
@@ -149,13 +151,12 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should update category with id=1 and return CategoryResponseDto")
         void categoryIdIsCorrect_UpdatesCategoryAndReturnsCategoryRequestDto() {
-            String namePart = "1";
-            String updatedNamePart = "1 updated";
-            Category category = makeCategoryWithId(CORRECT_ID, namePart);
-            Category categoryUpdated = makeCategoryWithId(CORRECT_ID, updatedNamePart);
+            Category category = makeCategoryWithId(CORRECT_ID, NAME_PART);
+            Category categoryUpdated = makeCategoryWithId(CORRECT_ID, UPDATED_NAME_PART);
             UpdateCategoryRequestDto updateCategoryRequestDto =
-                    makeUpdateCategoryRequestDto(updatedNamePart);
-            CategoryResponseDto categoryResponseDto = makeCategoryResponseDto(CORRECT_ID, updatedNamePart);
+                    makeUpdateCategoryRequestDto(NAME_PART);
+            CategoryResponseDto categoryResponseDto =
+                    makeCategoryResponseDto(CORRECT_ID, UPDATED_NAME_PART);
 
             doReturn(category).when(categoryService).getCategoryById(CORRECT_ID);
             when(categoryMapper.updateModel(category, updateCategoryRequestDto))
@@ -163,7 +164,8 @@ class CategoryServiceTests {
             when(categoryRepository.save(categoryUpdated)).thenReturn(categoryUpdated);
             when(categoryMapper.toDto(categoryUpdated)).thenReturn(categoryResponseDto);
 
-            assertEquals(categoryResponseDto, categoryService.update(CORRECT_ID, updateCategoryRequestDto));
+            assertEquals(categoryResponseDto,
+                    categoryService.update(CORRECT_ID, updateCategoryRequestDto));
             verify(categoryService).getCategoryById(CORRECT_ID);
             verify(categoryMapper).updateModel(category, updateCategoryRequestDto);
             verify(categoryRepository).save(categoryUpdated);
@@ -173,17 +175,15 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent category")
         void categoryIdIsWrong_ThrowsEntityNotFoundException() {
-            Long nonExistentCategoryId = 77L;
-            String namePart = "1";
             UpdateCategoryRequestDto updateCategoryRequestDto =
-                    makeUpdateCategoryRequestDto(namePart);
+                    makeUpdateCategoryRequestDto(NAME_PART);
 
             doThrow(EntityNotFoundException.class).when(categoryService)
-                    .getCategoryById(nonExistentCategoryId);
+                    .getCategoryById(WRONG_ID);
 
             assertThrows(EntityNotFoundException.class,
-                    () -> categoryService.update(nonExistentCategoryId, updateCategoryRequestDto));
-            verify(categoryService).getCategoryById(nonExistentCategoryId);
+                    () -> categoryService.update(WRONG_ID, updateCategoryRequestDto));
+            verify(categoryService).getCategoryById(WRONG_ID);
             verify(categoryRepository, never()).save(any());
         }
     }
@@ -195,26 +195,22 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should delete category by id=1")
         void categoryIdIsCorrect_RemovesCategory() {
-            Long id = 1L;
+            when(categoryRepository.existsById(CORRECT_ID)).thenReturn(true);
 
-            when(categoryRepository.existsById(id)).thenReturn(true);
+            categoryService.delete(CORRECT_ID);
 
-            categoryService.delete(id);
-
-            verify(categoryRepository).existsById(id);
-            verify(categoryRepository).deleteById(id);
+            verify(categoryRepository).existsById(CORRECT_ID);
+            verify(categoryRepository).deleteById(CORRECT_ID);
         }
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent category")
         void categoryIdIsWrong_ThrowsEntityNotFoundException() {
-            Long nonExistentCategoryId = 77L;
-
-            when(categoryRepository.existsById(nonExistentCategoryId)).thenReturn(false);
+            when(categoryRepository.existsById(WRONG_ID)).thenReturn(false);
 
             assertThrows(EntityNotFoundException.class,
-                    () -> categoryService.delete(nonExistentCategoryId));
-            verify(categoryRepository).existsById(nonExistentCategoryId);
+                    () -> categoryService.delete(WRONG_ID));
+            verify(categoryRepository).existsById(WRONG_ID);
             verify(categoryRepository, never()).deleteById(any());
         }
     }
@@ -226,27 +222,23 @@ class CategoryServiceTests {
         @Test
         @DisplayName("should find and return category by id=1")
         void categoryIdIsCorrect_ReturnsCategory() {
-            Long id = 1L;
-            String namePart = "1";
-            Category category = makeCategoryWithId(id, namePart);
+            Category category = makeCategoryWithId(CORRECT_ID, NAME_PART);
 
-            when(categoryRepository.findById(id)).thenReturn(Optional.of(category));
+            when(categoryRepository.findById(CORRECT_ID)).thenReturn(Optional.of(category));
 
-            assertEquals(category, categoryService.getCategoryById(id));
-            verify(categoryRepository).findById(id);
+            assertEquals(category, categoryService.getCategoryById(CORRECT_ID));
+            verify(categoryRepository).findById(CORRECT_ID);
         }
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent category")
         void categoryIdIsWrong_ThrowsEntityNotFoundException() {
-            Long nonExistentCategoryId = 77L;
-
-            when(categoryRepository.findById(nonExistentCategoryId))
+            when(categoryRepository.findById(WRONG_ID))
                     .thenReturn(Optional.empty());
 
             assertThrows(EntityNotFoundException.class,
-                    () -> categoryService.getCategoryById(nonExistentCategoryId));
-            verify(categoryRepository).findById(nonExistentCategoryId);
+                    () -> categoryService.getCategoryById(WRONG_ID));
+            verify(categoryRepository).findById(WRONG_ID);
         }
     }
 }

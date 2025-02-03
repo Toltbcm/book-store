@@ -1,5 +1,8 @@
 package org.bookstore.service.impl;
 
+import static org.bookstore.util.Constant.CORRECT_ID;
+import static org.bookstore.util.Constant.NAME_PART;
+import static org.bookstore.util.Constant.WRONG_ID;
 import static org.bookstore.util.ModelsAndDtoMaker.makeBookResponseDto;
 import static org.bookstore.util.ModelsAndDtoMaker.makeBookWithId;
 import static org.bookstore.util.ModelsAndDtoMaker.makeBookWithoutCategoriesResponseDto;
@@ -63,20 +66,19 @@ class BookServiceTests {
         @Test
         @DisplayName("should save book and return BookResponseDto")
         void createBookRequestDto_SavesBookAndReturnsBookRequestDto() {
-            Long id = 1L;
-            String namePart = "1";
             BigDecimal price = BigDecimal.valueOf(11.11);
             List<Long> categoryIds = List.of(1L, 2L);
             CreateBookRequestDto createBookRequestDto = makeCreateBookRequestDto(
-                    namePart, price, categoryIds);
+                    NAME_PART, price, categoryIds);
             Set<Category> categories = Set.of(
                     makeCategoryWithId(1L, ""),
                     makeCategoryWithId(2L, ""));
             Book bookWithoutId = makeBookWithoutId(
-                    namePart, price, categories);
+                    NAME_PART, price, categories);
             Book bookWithId = makeBookWithId(
-                    id, namePart, price, categories);
-            BookResponseDto bookResponseDto = makeBookResponseDto(id, namePart, price, categoryIds);
+                    CORRECT_ID, NAME_PART, price, categories);
+            BookResponseDto bookResponseDto =
+                    makeBookResponseDto(CORRECT_ID, NAME_PART, price, categoryIds);
 
             when(bookMapper.toModel(createBookRequestDto)).thenReturn(bookWithoutId);
             when(bookRepository.save(bookWithoutId)).thenReturn(bookWithId);
@@ -96,36 +98,33 @@ class BookServiceTests {
         @Test
         @DisplayName("should find and return BookResponseDto by book id=1")
         void bookIdIsCorrect_ReturnsBookResponseDto() {
-            Long id = 1L;
-            String namePart = "1";
             BigDecimal price = BigDecimal.valueOf(11.11);
             List<Long> categoryIds = List.of(1L, 2L);
             Set<Category> categories = Set.of(
                     makeCategoryWithId(1L, ""),
                     makeCategoryWithId(2L, ""));
-            Book bookWithId = makeBookWithId(id, namePart, price, categories);
+            Book bookWithId = makeBookWithId(CORRECT_ID, NAME_PART, price, categories);
             BookResponseDto bookResponseDto = makeBookResponseDto(
-                    id, namePart, price, categoryIds);
+                    CORRECT_ID, NAME_PART, price, categoryIds);
 
-            when(bookRepository.findByIdWithCategory(id)).thenReturn(Optional.of(bookWithId));
+            when(bookRepository.findByIdWithCategory(CORRECT_ID))
+                    .thenReturn(Optional.of(bookWithId));
             when(bookMapper.toDto(bookWithId)).thenReturn(bookResponseDto);
 
-            assertEquals(bookResponseDto, bookService.getById(id));
-            verify(bookRepository).findByIdWithCategory(id);
+            assertEquals(bookResponseDto, bookService.getById(CORRECT_ID));
+            verify(bookRepository).findByIdWithCategory(CORRECT_ID);
             verify(bookMapper).toDto(bookWithId);
         }
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent book")
         void bookIdIsWrong_ThrowsEntityNotFoundException() {
-            Long nonExistentBookId = 77L;
-
-            when(bookRepository.findByIdWithCategory(nonExistentBookId))
+            when(bookRepository.findByIdWithCategory(WRONG_ID))
                     .thenReturn(Optional.empty());
 
             assertThrows(EntityNotFoundException.class,
-                    () -> bookService.getById(nonExistentBookId));
-            verify(bookRepository).findByIdWithCategory(nonExistentBookId);
+                    () -> bookService.getById(WRONG_ID));
+            verify(bookRepository).findByIdWithCategory(WRONG_ID);
             verify(bookMapper, never()).toDto(any());
         }
     }
@@ -180,28 +179,27 @@ class BookServiceTests {
         @Test
         @DisplayName("should update book with id=1 and return BookResponseDto")
         void bookIdIsCorrect_UpdatesBookAndReturnsBookRequestDto() {
-            Long id = 1L;
-            String namePart = "1";
             BigDecimal price = BigDecimal.valueOf(11.11);
             BigDecimal priceUpdated = BigDecimal.valueOf(22.22);
             List<Long> categoryIds = List.of(1L, 2L);
             UpdateBookRequestDto updateBookRequestDto =
-                    makeUpdateBookRequestDto(namePart, priceUpdated, categoryIds);
+                    makeUpdateBookRequestDto(NAME_PART, priceUpdated, categoryIds);
             Set<Category> categories = Set.of(
                     makeCategoryWithId(1L, ""),
                     makeCategoryWithId(2L, ""));
-            Book book = makeBookWithId(id, namePart, price, categories);
-            Book bookUpdated = makeBookWithId(id, namePart, priceUpdated, categories);
-            BookResponseDto bookResponseDto = makeBookResponseDto(id, namePart, price, categoryIds);
+            Book book = makeBookWithId(CORRECT_ID, NAME_PART, price, categories);
+            Book bookUpdated = makeBookWithId(CORRECT_ID, NAME_PART, priceUpdated, categories);
+            BookResponseDto bookResponseDto =
+                    makeBookResponseDto(CORRECT_ID, NAME_PART, price, categoryIds);
 
-            doReturn(book).when(bookService).getBookById(id);
+            doReturn(book).when(bookService).getBookById(CORRECT_ID);
             when(bookMapper.updateModel(book, updateBookRequestDto))
                     .thenReturn(bookUpdated);
             when(bookRepository.save(bookUpdated)).thenReturn(bookUpdated);
             when(bookMapper.toDto(bookUpdated)).thenReturn(bookResponseDto);
 
-            assertEquals(bookResponseDto, bookService.update(id, updateBookRequestDto));
-            verify(bookService).getBookById(id);
+            assertEquals(bookResponseDto, bookService.update(CORRECT_ID, updateBookRequestDto));
+            verify(bookService).getBookById(CORRECT_ID);
             verify(bookMapper).updateModel(book, updateBookRequestDto);
             verify(bookRepository).save(bookUpdated);
             verify(bookMapper).toDto(bookUpdated);
@@ -210,19 +208,17 @@ class BookServiceTests {
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent book")
         void bookIdIsWrong_ThrowsEntityNotFoundException() {
-            Long nonExistentBookId = 77L;
-            String namePart = "1";
             BigDecimal price = BigDecimal.valueOf(11.11);
             List<Long> categoryIds = List.of(1L, 2L);
             UpdateBookRequestDto updateBookRequestDto =
-                    makeUpdateBookRequestDto(namePart, price, categoryIds);
+                    makeUpdateBookRequestDto(NAME_PART, price, categoryIds);
 
             doThrow(EntityNotFoundException.class).when(bookService)
-                    .getBookById(nonExistentBookId);
+                    .getBookById(WRONG_ID);
 
             assertThrows(EntityNotFoundException.class,
-                    () -> bookService.update(nonExistentBookId, updateBookRequestDto));
-            verify(bookService).getBookById(nonExistentBookId);
+                    () -> bookService.update(WRONG_ID, updateBookRequestDto));
+            verify(bookService).getBookById(WRONG_ID);
             verify(bookRepository, never()).save(any());
 
         }
@@ -235,26 +231,22 @@ class BookServiceTests {
         @Test
         @DisplayName("should delete book by id=1")
         void bookIdIsCorrect_RemovesBook() {
-            Long id = 1L;
+            when(bookRepository.existsById(CORRECT_ID)).thenReturn(true);
 
-            when(bookRepository.existsById(id)).thenReturn(true);
+            bookService.delete(CORRECT_ID);
 
-            bookService.delete(id);
-
-            verify(bookRepository).existsById(id);
-            verify(bookRepository).deleteById(id);
+            verify(bookRepository).existsById(CORRECT_ID);
+            verify(bookRepository).deleteById(CORRECT_ID);
         }
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent book")
         void bookIdIsWrong_ThrowsEntityNotFoundException() {
-            Long nonExistentBookId = 77L;
-
-            when(bookRepository.existsById(nonExistentBookId)).thenReturn(false);
+            when(bookRepository.existsById(WRONG_ID)).thenReturn(false);
 
             assertThrows(EntityNotFoundException.class,
-                    () -> bookService.delete(nonExistentBookId));
-            verify(bookRepository).existsById(nonExistentBookId);
+                    () -> bookService.delete(WRONG_ID));
+            verify(bookRepository).existsById(WRONG_ID);
             verify(bookRepository, never()).deleteById(any());
         }
     }
@@ -264,7 +256,7 @@ class BookServiceTests {
     class GetAllByCategoryIdTests {
 
         @Test
-        @DisplayName("should return page with two BookResponseDtos")
+        @DisplayName("should return page with two BookResponseDtos by category id=2")
         void pageable_returnsPageWithThreeBooksResponseDtos() {
             Long categoryId = 2L;
             Book book1 = makeBookWithId(1L, "1", BigDecimal.valueOf(11.11),
@@ -308,27 +300,23 @@ class BookServiceTests {
         @Test
         @DisplayName("should find and return book by id=1")
         void bookIdIsCorrect_ReturnsBook() {
-            Long id = 1L;
-            String namePart = "1";
-            Book book = makeBookWithId(id, namePart, BigDecimal.valueOf(11.11), Set.of());
+            Book book = makeBookWithId(CORRECT_ID, NAME_PART, BigDecimal.valueOf(11.11), Set.of());
 
-            when(bookRepository.findById(id)).thenReturn(Optional.of(book));
+            when(bookRepository.findById(CORRECT_ID)).thenReturn(Optional.of(book));
 
-            assertEquals(book, bookService.getBookById(id));
-            verify(bookRepository).findById(id);
+            assertEquals(book, bookService.getBookById(CORRECT_ID));
+            verify(bookRepository).findById(CORRECT_ID);
         }
 
         @Test
         @DisplayName("should throw EntityNotFoundException for non-existent book")
         void bookIdIsWrong_ThrowsEntityNotFoundException() {
-            Long nonExistentBookId = 77L;
-
-            when(bookRepository.findById(nonExistentBookId))
+            when(bookRepository.findById(WRONG_ID))
                     .thenReturn(Optional.empty());
 
             assertThrows(EntityNotFoundException.class,
-                    () -> bookService.getBookById(nonExistentBookId));
-            verify(bookRepository).findById(nonExistentBookId);
+                    () -> bookService.getBookById(WRONG_ID));
+            verify(bookRepository).findById(WRONG_ID);
         }
     }
 }
