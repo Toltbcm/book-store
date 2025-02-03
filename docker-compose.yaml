@@ -1,0 +1,45 @@
+services:
+  postgres-db:
+    image: postgres:17-alpine3.21
+    container_name: postgres-db
+    env_file: ./.env
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_POSTGRES_NAME}
+      POSTGRES_USER: ${DB_POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - db_postgres_storage:/var/lib/postgresql/data
+    ports:
+      - "${DB_POSTGRES_LOCAL_PORT}:${DB_POSTGRES_DOCKER_PORT}"
+
+  book-store-app:
+    depends_on:
+      - postgres-db
+    build: .
+    image: book-store-app
+    container_name: book-store-app
+    env_file: ./.env
+    restart: on-failure
+    ports:
+      - ${APP_LOCAL_PORT}:${APP_DOCKER_PORT}
+      - ${APP_DEBUG_PORT}:${APP_DEBUG_PORT}
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:postgresql://postgres-db:${DB_POSTGRES_DOCKER_PORT}/${DB_POSTGRES_NAME}",
+        "spring.datasource.username" : "${DB_POSTGRES_USERNAME}",
+        "spring.datasource.password" : "${DB_POSTGRES_PASSWORD}",
+        "spring.datasource.driver-class-name" : "${DB_POSTGRES_DRIVER}",
+        "spring.jpa.hibernate.ddl-auto" : "validate",
+        "spring.jpa.open-in-view" : false,
+        "spring.jpa.show-sql" : true
+      }'
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${APP_DEBUG_PORT}"
+
+volumes:
+  db_postgres_storage:
