@@ -25,7 +25,7 @@ public class BookServiceImpl implements BookService {
     private final BookSpecificationBuilder bookSpecificationBuilder;
 
     private static EntityNotFoundException newEntityNotFoundForBook(Long id) {
-        return new EntityNotFoundException("Can't find book with id: " + id);
+        return new EntityNotFoundException("Can't find book by id: " + id);
     }
 
     @Override
