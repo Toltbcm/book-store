@@ -1,6 +1,6 @@
 package org.bookstore.util;
 
-public record ErrorObject(
+public record Error(
         String timeStamp,
         String status,
         String message
