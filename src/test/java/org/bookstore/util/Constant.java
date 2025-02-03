@@ -3,7 +3,7 @@ package org.bookstore.util;
 public class Constant {
     public static final String URL_SEPARATOR = "/";
     public static final long CORRECT_ID = 1L;
-    public static final long WRONG_ID = 77L;
+    public static final long WRONG_ID = 666L;
     public static final String NAME_PART = "1";
     public static final String UPDATED_NAME_PART = "updated";
     public static final String ADMIN_USERNAME = "admin@test.com";
