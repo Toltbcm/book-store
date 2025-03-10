@@ -60,6 +60,12 @@ public class GlobalExceptionHandler {
         return makeResponse(ex, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(ShoppingCartEmptyException.class)
+    public ResponseEntity<Map<String, Object>> handleShoppingCartEmptyException(
+            ShoppingCartEmptyException ex) {
+        return makeResponse(ex, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleAllExceptions(Exception ex) {
         return makeResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR);
