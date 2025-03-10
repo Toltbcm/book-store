@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-roles-table
+      id: create-shopping_carts-table
       author: Anatolii Olkhovskyi
       changes:
         - createTable:
-            tableName: roles
+            tableName: shopping_carts
             columns:
               - column:
                   name: id
@@ -12,10 +12,13 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    primaryKeyName: pk_roles
+                    primaryKeyName: pk_shopping_carts
               - column:
-                  name: name
-                  type: varchar(20)
+                  name: user_id
+                  type: bigint
                   constraints:
                     unique: true
                     nullable: false
+                    referencedTableName: users
+                    referencedColumnNames: id
+                    foreignKeyName: fk_shopping_carts_users

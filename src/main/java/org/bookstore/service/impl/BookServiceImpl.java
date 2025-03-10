@@ -14,7 +14,6 @@ import org.bookstore.repository.spicification.book.BookSpecificationBuilder;
 import org.bookstore.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.lang.Contract;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,9 +24,8 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder bookSpecificationBuilder;
 
-    @Contract
-    private static String notFoundBookMessage(Long id) {
-        return String.format("Can't find book with id: %d", id);
+    private static EntityNotFoundException newEntityNotFoundForBook(Long id) {
+        return new EntityNotFoundException("Can't find book with id: " + id);
     }
 
     @Override
@@ -54,7 +52,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void delete(Long id) {
         if (!bookRepository.existsById(id)) {
-            throw new EntityNotFoundException(notFoundBookMessage(id));
+            throw newEntityNotFoundForBook(id);
         }
         bookRepository.deleteById(id);
     }
@@ -68,17 +66,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<BookWithoutCategoriesResponseDto> getAllByCategoryId(Long id, Pageable pageable) {
-        return bookRepository.findAllByCategoryId(id, pageable)
+        return bookRepository.getAllByCategoryId(id, pageable)
                 .map(bookMapper::toDtoWithoutCategories);
     }
 
-    private Book getBookById(Long id) {
+    @Override
+    public Book getBookById(Long id) {
         return bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(notFoundBookMessage(id)));
+                .orElseThrow(() -> newEntityNotFoundForBook(id));
     }
 
     private Book getBookWithCategoryById(Long id) {
         return bookRepository.findByIdWithCategory(id)
-                .orElseThrow(() -> new EntityNotFoundException(notFoundBookMessage(id)));
+                .orElseThrow(() -> newEntityNotFoundForBook(id));
     }
 }
